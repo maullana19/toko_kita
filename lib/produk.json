@@ -1,0 +1,9 @@
+{
+    "produk": {
+        "id": "B01",
+        "nama": "Buku Tulis",
+        "harga": "Rp. 100.000",
+        "jumlah": "10",
+        "gambar": "buku.jpg"
+    }
+}
