@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
 import 'package:flutter_lans/blocs/logout_bloc.dart';
 import 'package:flutter_lans/blocs/produk_bloc.dart';
 import 'package:flutter_lans/models/produk.dart';
@@ -10,7 +11,7 @@ class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key}) : super(key: key);
 
   @override
-  _ProdukPageState createState() => _ProdukPageState();
+  State<ProdukPage> createState() => _ProdukPageState();
 }
 
 class _ProdukPageState extends State<ProdukPage> {
@@ -18,30 +19,30 @@ class _ProdukPageState extends State<ProdukPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xff1d1d27),
         title: const Text('List Produk'),
         actions: [
           Padding(
-              padding: const EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                child: const Icon(Icons.add, size: 26.0),
-                onTap: () async {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => ProdukForm()));
-                },
-              ))
+            padding: const EdgeInsets.only(right: 20.0),
+            child: GestureDetector(
+              child: const Icon(Icons.add, size: 26.0),
+              onTap: () async {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProdukForm()));
+              },
+            ),
+          )
         ],
       ),
       drawer: Drawer(
         child: ListView(
           children: [
             ListTile(
-              title: const Text('Logout'),
-              trailing: const Icon(Icons.logout),
+              title: const Icon(Icons.logout),
               onTap: () async {
-                await LogoutBloc.logout().then((value) => {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => LoginPage()))
-                    });
+                await LogoutBloc.logout().then((value) =>
+                    Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (context) => LoginPage())));
               },
             )
           ],

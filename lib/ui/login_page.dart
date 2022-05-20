@@ -32,12 +32,12 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Column(
               children: [
-                SizedBox(width: 50),
+                SizedBox(width: 5),
                 _emailTextField(),
                 _passwordTextField(),
                 _buttonLogin(),
                 const SizedBox(
-                  height: 50,
+                  height: 10,
                 ),
                 _menuRegistrasi()
               ],
