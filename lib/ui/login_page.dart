@@ -23,24 +23,47 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                SizedBox(width: 5),
-                _emailTextField(),
-                _passwordTextField(),
-                _buttonLogin(),
-                const SizedBox(
-                  height: 10,
+        title: const Text('Toko Kita'),
+        actions: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(right: 20.0),
+              child: GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const RegistrasiPage()));
+                },
+                child: Icon(
+                  Icons.login_outlined,
+                  size: 26.0,
                 ),
-                _menuRegistrasi()
-              ],
+              )),
+        ],
+      ),
+      body: Center(
+        child: Container(
+          width: 450,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
+            color: Colors.blue, //BorderRadius.all
+          ),
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(height: 10, width: 3),
+                    _emailTextField(),
+                    _passwordTextField(),
+                    _buttonLogin()
+                  ],
+                ),
+              ),
             ),
           ),
         ),
@@ -63,7 +86,12 @@ class _LoginPageState extends State<LoginPage> {
   //Membuat Textbox email
   Widget _emailTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Email"),
+      style: TextStyle(color: Colors.white),
+      decoration: const InputDecoration(
+          label: Text("Email"),
+          labelStyle: TextStyle(
+            color: Colors.white,
+          )),
       keyboardType: TextInputType.emailAddress,
       controller: _emailTextboxController,
       validator: (value) {
@@ -79,7 +107,14 @@ class _LoginPageState extends State<LoginPage> {
   //Membuat Textbox password
   Widget _passwordTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Password"),
+      style: TextStyle(
+        color: Colors.white,
+      ),
+      decoration: const InputDecoration(
+          label: Text("Password"),
+          labelStyle: TextStyle(
+            color: Colors.white,
+          )),
       keyboardType: TextInputType.text,
       obscureText: true,
       controller: _passwordTextboxController,

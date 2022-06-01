@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:convert';
+import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:flutter_lans/helpers/user_info.dart';
 import 'app_exception.dart';
@@ -11,6 +13,7 @@ class Api {
       final response = await http.post(Uri.parse(url),
           body: data,
           headers: {HttpHeaders.authorizationHeader: "Bearer $token"});
+
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');
@@ -22,8 +25,9 @@ class Api {
     var token = await UserInfo().getToken();
     var responseJson;
     try {
-      final response = await http.get(url,
+      final response = await http.get(Uri.parse(url),
           headers: {HttpHeaders.authorizationHeader: "Bearer $token"});
+
       responseJson = _returnResponse(response);
     } on SocketException {
       throw FetchDataException('No Internet connection');

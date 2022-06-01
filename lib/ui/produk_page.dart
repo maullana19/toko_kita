@@ -19,7 +19,6 @@ class _ProdukPageState extends State<ProdukPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff1d1d27),
         title: const Text('List Produk'),
         actions: [
           Padding(
@@ -50,7 +49,11 @@ class _ProdukPageState extends State<ProdukPage> {
       ),
       body: FutureBuilder<List>(
         future: ProdukBloc.getProduks(),
-        builder: (context, snapshot) {
+        builder: (context, AsyncSnapshot<List> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting ||
+              snapshot.connectionState == ConnectionState.none) {
+            return Center(child: CircularProgressIndicator());
+          }
           if (snapshot.hasError) print(snapshot.error);
           return snapshot.hasData
               ? ListProduk(
@@ -82,14 +85,17 @@ class ListProduk extends StatelessWidget {
   }
 }
 
+// create list produk
 class ItemProduk extends StatelessWidget {
-  final Produk produk;
+  final Produk? produk;
 
-  const ItemProduk({Key? key, required this.produk}) : super(key: key);
+  const ItemProduk({Key? key, this.produk}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ListTile(
+      title: Text(produk!.namaProduk!),
+      trailing: Text(produk!.hargaProduk!.toString()),
       onTap: () {
         Navigator.push(
             context,
@@ -98,12 +104,6 @@ class ItemProduk extends StatelessWidget {
                       produk: produk,
                     )));
       },
-      child: Card(
-        child: ListTile(
-          title: Text(produk.namaProduk!),
-          subtitle: Text(produk.hargaProduk.toString()),
-        ),
-      ),
     );
   }
 }
