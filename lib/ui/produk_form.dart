@@ -47,7 +47,10 @@ class _ProdukFormState extends State<ProdukForm> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(judul)),
+      //  create app bar
+      appBar: AppBar(
+        title: Text("Add Produk"),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -56,9 +59,24 @@ class _ProdukFormState extends State<ProdukForm> {
             child: Column(
               children: [
                 _kodeProdukTextField(),
+                SizedBox(
+                  height: 20,
+                ),
                 _namaProdukTextField(),
+                SizedBox(
+                  height: 20,
+                ),
                 _hargaProdukTextField(),
-                _buttonSubmit()
+                SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                _buttonSubmit(),
+                SizedBox(
+                  height: 20,
+                ),
               ],
             ),
           ),
@@ -70,7 +88,8 @@ class _ProdukFormState extends State<ProdukForm> {
   //Membuat Textbox Kode Produk
   Widget _kodeProdukTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Kode Produk"),
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(), labelText: "Kode Produk"),
       keyboardType: TextInputType.text,
       controller: _kodeProdukTextboxController,
       validator: (value) {
@@ -85,7 +104,8 @@ class _ProdukFormState extends State<ProdukForm> {
   //Membuat Textbox Nama Produk
   Widget _namaProdukTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Nama Produk"),
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(), labelText: "Nama Produk"),
       keyboardType: TextInputType.text,
       controller: _namaProdukTextboxController,
       validator: (value) {
@@ -100,7 +120,8 @@ class _ProdukFormState extends State<ProdukForm> {
   //Membuat Textbox Harga Produk
   Widget _hargaProdukTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Harga"),
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(), labelText: "Harga"),
       keyboardType: TextInputType.number,
       controller: _hargaProdukTextboxController,
       validator: (value) {
@@ -112,27 +133,26 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-  //Membuat Tombol Simpan/Ubah
+  // create button submit
   Widget _buttonSubmit() {
-    return OutlinedButton(
-        child: Text(tombolSubmit),
-        onPressed: () {
-          var validate = _formKey.currentState!.validate();
-          if (validate) {
-            if (!_isLoading) {
-              if (widget.produk != null) {
-                //kondisi update produk
-                ubah();
-              } else {
-                //kondisi tambah produk
-                simpan();
-              }
-            }
+    return RaisedButton(
+      child: Text(tombolSubmit),
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          setState(() {
+            _isLoading = true;
+          });
+          if (widget.produk == null) {
+            _addProduk();
+          } else {
+            ubah();
           }
-        });
+        }
+      },
+    );
   }
 
-  simpan() {
+  _addProduk() {
     setState(() {
       _isLoading = true;
     });
@@ -154,6 +174,8 @@ class _ProdukFormState extends State<ProdukForm> {
       _isLoading = false;
     });
   }
+
+  // simpan produk ke database
 
   ubah() {
     setState(() {

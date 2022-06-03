@@ -44,10 +44,11 @@ class ProdukBloc {
     return jsonObj['data'];
   }
 
-  static Future<bool> deleteProduk({int? id}) async {
-    String apiUrl = ApiUrl.deleteProduk(id!);
+  // create delete produk method
+  static Future<bool> deleteProduk({required Produk produk}) async {
+    String apiUrl = ApiUrl.deleteProduk(produk.id!);
     var response = await Api().delete(apiUrl);
     var jsonObj = json.decode(response.body);
-    return (jsonObj as Map<String, dynamic>)['data'];
+    return jsonObj['data'];
   }
 }

@@ -20,22 +20,30 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Registrasi"),
-      ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.all(20.0),
           child: Form(
             key: _formKey,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Text(
+                  'Isi Formulir Dibawah Ini',
+                  style: Theme.of(context).textTheme.headline5,
+                ),
+                SizedBox(height: 35),
                 _namaTextField(),
+                SizedBox(height: 10),
                 _emailTextField(),
+                SizedBox(height: 10),
                 _passwordTextField(),
+                SizedBox(height: 10),
                 _passwordKonfirmasiTextField(),
-                _buttonRegistrasi()
+                SizedBox(height: 40),
+                _buttonRegistrasi(),
+                SizedBox(height: 50),
+                _floatingActionBackButton()
               ],
             ),
           ),
@@ -44,12 +52,13 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  //Membuat Textbox Nama
   Widget _namaTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Nama"),
-      keyboardType: TextInputType.text,
       controller: _namaTextboxController,
+      decoration: InputDecoration(
+        labelText: 'Nama',
+        border: OutlineInputBorder(),
+      ),
       validator: (value) {
         if (value!.length < 3) {
           return "Nama harus diisi minimal 3 karakter";
@@ -59,38 +68,31 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  //Membuat Textbox email
   Widget _emailTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Email"),
-      keyboardType: TextInputType.emailAddress,
       controller: _emailTextboxController,
+      decoration: InputDecoration(
+        labelText: 'Email',
+        border: OutlineInputBorder(),
+      ),
       validator: (value) {
-        //validasi harus diisi
         if (value!.isEmpty) {
-          return 'Email harus diisi';
-        }
-        //validasi email
-        Pattern pattern =
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zAZ]{2,}))$';
-        RegExp regex = RegExp(pattern.toString());
-        if (!regex.hasMatch(value)) {
-          return "Email tidak valid";
+          return "Email harus diisi";
         }
         return null;
       },
     );
   }
 
-//Membuat Textbox password
   Widget _passwordTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Password"),
-      keyboardType: TextInputType.text,
-      obscureText: true,
       controller: _passwordTextboxController,
+      obscureText: true,
+      decoration: InputDecoration(
+        labelText: 'Password',
+        border: OutlineInputBorder(),
+      ),
       validator: (value) {
-//jika karakter yang dimasukkan kurang dari 6 karakter
         if (value!.length < 6) {
           return "Password harus diisi minimal 6 karakter";
         }
@@ -99,23 +101,25 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  //membuat textbox Konfirmasi Password
   Widget _passwordKonfirmasiTextField() {
     return TextFormField(
-      decoration: const InputDecoration(labelText: "Konfirmasi Password"),
-      keyboardType: TextInputType.text,
       obscureText: true,
+      decoration: InputDecoration(
+        labelText: 'Konfirmasi Password',
+        border: OutlineInputBorder(),
+      ),
       validator: (value) {
-//jika inputan tidak sama dengan password
+        if (value!.length < 6) {
+          return "Konfirmasi Password harus diisi minimal 6 karakter";
+        }
         if (value != _passwordTextboxController.text) {
-          return "Konfirmasi Password tidak sama";
+          return "Konfirmasi Password tidak sesuai";
         }
         return null;
       },
     );
   }
 
-//Membuat Tombol Registrasi
   Widget _buttonRegistrasi() {
     return ElevatedButton(
         child: const Text("Registrasi"),
@@ -157,5 +161,14 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     setState(() {
       _isLoading = false;
     });
+  }
+
+  Widget _floatingActionBackButton() {
+    return FloatingActionButton(
+      child: const Icon(Icons.arrow_back),
+      onPressed: () {
+        Navigator.pop(context);
+      },
+    );
   }
 }

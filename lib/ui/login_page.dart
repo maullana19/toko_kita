@@ -23,125 +23,106 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Toko Kita'),
+        title: Text('TokoKita.com'),
         actions: <Widget>[
-          Padding(
-              padding: EdgeInsets.only(right: 20.0),
-              child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const RegistrasiPage()));
-                },
-                child: Icon(
-                  Icons.login_outlined,
-                  size: 26.0,
+          FlatButton(
+            child: Text(
+              'Daftar',
+              style: TextStyle(color: Colors.white),
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RegistrasiPage(),
                 ),
-              )),
+              );
+            },
+          ),
         ],
       ),
       body: Center(
-        child: Container(
-          width: 450,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-            color: Colors.blue, //BorderRadius.all
-          ),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    SizedBox(height: 10, width: 3),
-                    _emailTextField(),
-                    _passwordTextField(),
-                    _buttonLogin()
-                  ],
-                ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              'TokoKita.com',
+              style: TextStyle(
+                fontSize: 35,
+                fontWeight: FontWeight.bold,
+                color: Colors.blue,
+                fontFamily: 'Pacifico',
               ),
             ),
-          ),
+            SizedBox(height: 20),
+            Text("Login"),
+            SizedBox(
+              child: _isLoading ? CircularProgressIndicator() : null,
+              height: 20,
+              width: 50,
+            ),
+            Padding(padding: EdgeInsets.all(5)),
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _emailTextField(),
+                  _passwordTextField(),
+                  SizedBox(height: 50),
+                  _loginButton(),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _divider() {
-    return Center(
-      child: Column(
-        children: [
-          Divider(
-            height: 20,
-          )
-        ],
-      ),
-    );
-  }
-
-  //Membuat Textbox email
   Widget _emailTextField() {
-    return TextFormField(
-      style: TextStyle(color: Colors.white),
-      decoration: const InputDecoration(
-          label: Text("Email"),
-          labelStyle: TextStyle(
-            color: Colors.white,
-          )),
-      keyboardType: TextInputType.emailAddress,
-      controller: _emailTextboxController,
-      validator: (value) {
-        //validasi harus diisi
-        if (value!.isEmpty) {
-          return 'Email harus diisi';
-        }
-        return null;
-      },
-    );
+    return Padding(
+        padding: EdgeInsets.all(10),
+        child: TextFormField(
+          style: TextStyle(color: Colors.black),
+          decoration: InputDecoration(
+              prefixIcon: Icon(Icons.email),
+              labelText: 'Email',
+              labelStyle: TextStyle(color: Colors.black),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          obscureText: false,
+          controller: _emailTextboxController,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'email harus diisi';
+            }
+            return null;
+          },
+        ));
   }
 
-  //Membuat Textbox password
   Widget _passwordTextField() {
-    return TextFormField(
-      style: TextStyle(
-        color: Colors.white,
-      ),
-      decoration: const InputDecoration(
-          label: Text("Password"),
-          labelStyle: TextStyle(
-            color: Colors.white,
-          )),
-      keyboardType: TextInputType.text,
-      obscureText: true,
-      controller: _passwordTextboxController,
-      validator: (value) {
-        //jika karakter yang dimasukkan kurang dari 6 karakter
-        if (value!.isEmpty) {
-          return "Password harus diisi";
-        }
-        return null;
-      },
-    );
-  }
-
-  //Membuat Tombol Login
-  Widget _buttonLogin() {
-    return ElevatedButton(
-        child: const Text("Login"),
-        style: ElevatedButton.styleFrom(
-            primary: Colors.lightBlue,
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20))),
-        onPressed: () {
-          var validate = _formKey.currentState!.validate();
-          if (validate) {
-            if (!_isLoading) _submit();
-          }
-        });
+    return Padding(
+        padding: EdgeInsets.all(10),
+        child: TextFormField(
+          style: TextStyle(color: Colors.black),
+          decoration: InputDecoration(
+              prefixIcon: Icon(Icons.lock),
+              labelText: 'Password',
+              labelStyle: TextStyle(color: Colors.black),
+              border:
+                  OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+          obscureText: true,
+          controller: _passwordTextboxController,
+          validator: (value) {
+            if (value!.isEmpty) {
+              return 'Password harus diisi';
+            }
+            return null;
+          },
+        ));
   }
 
   void _submit() {
@@ -171,7 +152,6 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  // Membuat menu untuk membuka halaman registrasi
   Widget _menuRegistrasi() {
     return Center(
       child: InkWell(
@@ -184,6 +164,25 @@ class _LoginPageState extends State<LoginPage> {
               MaterialPageRoute(builder: (context) => const RegistrasiPage()));
         },
       ),
+    );
+  }
+
+  Widget _loginButton() {
+    return StreamBuilder<bool>(
+      builder: (context, snapshot) {
+        return RaisedButton(
+          color: Colors.blue,
+          child: Text(
+            'Login',
+            style: TextStyle(color: Colors.white),
+          ),
+          onPressed: () {
+            if (_formKey.currentState!.validate()) {
+              _submit();
+            }
+          },
+        );
+      },
     );
   }
 }

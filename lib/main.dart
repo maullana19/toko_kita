@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_lans/helpers/user_info.dart';
 import 'package:flutter_lans/ui/login_page.dart';
 import 'package:flutter_lans/ui/produk_page.dart';
+import 'package:flutter_lans/ui/profile_page.dart';
 import 'package:http/http.dart' as http;
 
 void main() {

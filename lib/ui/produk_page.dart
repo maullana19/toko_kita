@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:flutter_lans/helpers/user_info.dart';
 import 'package:flutter_lans/blocs/logout_bloc.dart';
 import 'package:flutter_lans/blocs/produk_bloc.dart';
 import 'package:flutter_lans/models/produk.dart';
 import 'package:flutter_lans/ui/login_page.dart';
 import 'package:flutter_lans/ui/produk_detail.dart';
 import 'package:flutter_lans/ui/produk_form.dart';
+import 'package:flutter_lans/ui/profile_page.dart';
 
 class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key}) : super(key: key);
@@ -19,34 +21,60 @@ class _ProdukPageState extends State<ProdukPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('List Produk'),
+        title: const Text('TokoKita.com'),
+        //  create user profile icon
         actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 20.0),
-            child: GestureDetector(
-              child: const Icon(Icons.add, size: 26.0),
-              onTap: () async {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => ProdukForm()));
-              },
-            ),
-          )
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ProfilesPages()));
+            },
+          ),
         ],
       ),
+      // create drawer all menu
       drawer: Drawer(
         child: ListView(
           children: [
+            UserAccountsDrawerHeader(
+              accountName: Text('Admin'),
+              accountEmail: Text('email : '),
+              currentAccountPicture: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Text('A'),
+              ),
+            ),
             ListTile(
-              title: const Icon(Icons.logout),
-              onTap: () async {
-                await LogoutBloc.logout().then((value) =>
-                    Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => LoginPage())));
+              title: Text('Home'),
+              leading: Icon(Icons.home),
+              onTap: () {
+                Navigator.pop(context);
               },
-            )
+            ),
+            ListTile(
+              title: Text('List Produk'),
+              leading: Icon(Icons.list),
+              onTap: () {
+                Navigator.pop(context);
+              },
+            ),
+            const Divider(
+              height: 1.0,
+            ),
+            ListTile(
+              title: Text('Logout'),
+              leading: Icon(Icons.exit_to_app),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginPage()));
+              },
+            ),
           ],
         ),
       ),
+
       body: FutureBuilder<List>(
         future: ProdukBloc.getProduks(),
         builder: (context, AsyncSnapshot<List> snapshot) {
@@ -62,6 +90,13 @@ class _ProdukPageState extends State<ProdukPage> {
               : const Center(
                   child: CircularProgressIndicator(),
                 );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () async {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => ProdukForm()));
         },
       ),
     );
@@ -85,7 +120,7 @@ class ListProduk extends StatelessWidget {
   }
 }
 
-// create list produk
+// create list produk item widget class with produk data
 class ItemProduk extends StatelessWidget {
   final Produk? produk;
 
@@ -93,17 +128,23 @@ class ItemProduk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(produk!.namaProduk!),
-      trailing: Text(produk!.hargaProduk!.toString()),
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ProdukDetail(
-                      produk: produk,
-                    )));
-      },
+    return Card(
+      child: ListTile(
+        title: Text(produk!.namaProduk!),
+        subtitle: Text("Kode :" + produk!.kodeProduk!),
+        leading: CircleAvatar(
+          backgroundColor: Colors.white,
+          child: Text(produk!.namaProduk![0]),
+        ),
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ProdukDetail(
+                        produk: produk,
+                      )));
+        },
+      ),
     );
   }
 }
