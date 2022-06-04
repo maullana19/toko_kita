@@ -55,7 +55,12 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             SizedBox(height: 20),
-            Text("Login"),
+            Text(
+              "Login",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             SizedBox(
               child: _isLoading ? CircularProgressIndicator() : null,
               height: 20,
@@ -71,11 +76,22 @@ class _LoginPageState extends State<LoginPage> {
                   _passwordTextField(),
                   SizedBox(height: 50),
                   _loginButton(),
-                  SizedBox(height: 20),
+                  SizedBox(height: 50),
+                  // create text
+                  Text(
+                    'Nyalakan Localhost Server',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 10,
+                        fontFamily: "roboto"),
+                  ),
                 ],
               ),
             ),
           ],
+          // create copy right
+          textBaseline: TextBaseline.alphabetic,
         ),
       ),
     );

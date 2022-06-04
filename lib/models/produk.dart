@@ -14,4 +14,6 @@ class Produk {
         namaProduk: obj['nama_produk'],
         hargaProduk: obj['harga']);
   }
+
+  get idProduk => null;
 }

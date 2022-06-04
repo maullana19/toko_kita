@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
+import 'package:meta/meta.dart';
 import 'package:flutter_lans/helpers/user_info.dart';
 import 'package:flutter_lans/blocs/logout_bloc.dart';
 import 'package:flutter_lans/blocs/produk_bloc.dart';
@@ -8,6 +8,7 @@ import 'package:flutter_lans/ui/login_page.dart';
 import 'package:flutter_lans/ui/produk_detail.dart';
 import 'package:flutter_lans/ui/produk_form.dart';
 import 'package:flutter_lans/ui/profile_page.dart';
+import 'package:flutter_lans/ui/member.dart';
 
 class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key}) : super(key: key);
@@ -22,13 +23,15 @@ class _ProdukPageState extends State<ProdukPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('TokoKita.com'),
-        //  create user profile icon
         actions: [
           IconButton(
-            icon: const Icon(Icons.person),
+            icon: const Icon(Icons.add),
             onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ProfilesPages()));
+              showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return ProdukForm();
+                  });
             },
           ),
         ],
@@ -57,6 +60,14 @@ class _ProdukPageState extends State<ProdukPage> {
               leading: Icon(Icons.list),
               onTap: () {
                 Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              title: Text('List Member'),
+              leading: Icon(Icons.person),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => MemberPage()));
               },
             ),
             const Divider(
@@ -92,11 +103,18 @@ class _ProdukPageState extends State<ProdukPage> {
                 );
         },
       ),
+
       floatingActionButton: FloatingActionButton(
-        child: const Icon(Icons.add),
-        onPressed: () async {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ProdukForm()));
+        child: Icon(Icons.note_alt),
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (BuildContext context) {
+                return Center(
+                  child: Text(
+                      'Untuk Menghapus Tekan List yang ingin dihapus dengan Lama'),
+                );
+              });
         },
       ),
     );
@@ -111,7 +129,7 @@ class ListProduk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: list == null ? 0 : list!.length,
+        itemCount: list == null ? 0 : list?.length,
         itemBuilder: (context, i) {
           return ItemProduk(
             produk: list![i],
@@ -120,18 +138,22 @@ class ListProduk extends StatelessWidget {
   }
 }
 
-// create list produk item widget class with produk data
 class ItemProduk extends StatelessWidget {
   final Produk? produk;
-
-  const ItemProduk({Key? key, this.produk}) : super(key: key);
+  const ItemProduk({Key? key, required this.produk}) : super(key: key);
+  final double _height = 100;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       child: ListTile(
         title: Text(produk!.namaProduk!),
-        subtitle: Text("Kode :" + produk!.kodeProduk!),
+        contentPadding: EdgeInsets.all(10),
+        subtitle: Text("Kode :" +
+            produk!.kodeProduk! +
+            "\n " +
+            "Harga :" +
+            produk!.hargaProduk!.toString()),
         leading: CircleAvatar(
           backgroundColor: Colors.white,
           child: Text(produk!.namaProduk![0]),

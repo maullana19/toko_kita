@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter_lans/helpers/api.dart';
 import 'package:flutter_lans/helpers/api_url.dart';
 import 'package:flutter_lans/models/produk.dart';
+import 'package:meta/meta.dart';
+import 'dart:async';
 
 class ProdukBloc {
   static Future<List<Produk>> getProduks() async {
@@ -44,11 +46,23 @@ class ProdukBloc {
     return jsonObj['data'];
   }
 
-  // create delete produk method
-  static Future<bool> deleteProduk({required Produk produk}) async {
+  static Future<bool> deleteProduk(Required required, param1,
+      {required Produk produk}) async {
     String apiUrl = ApiUrl.deleteProduk(produk.id!);
     var response = await Api().delete(apiUrl);
     var jsonObj = json.decode(response.body);
     return jsonObj['data'];
+  }
+
+  static Future<bool> deleteProdukById({required int id}) async {
+    String apiUrl = ApiUrl.deleteProduk(id);
+
+    var response = await Api().delete(apiUrl);
+    var jsonObj = json.decode(response.body);
+    return jsonObj['data'];
+  }
+
+  hapusProduk(idProduk) {
+    deleteProdukById(id: idProduk);
   }
 }

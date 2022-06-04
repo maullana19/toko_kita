@@ -85,7 +85,6 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-  //Membuat Textbox Kode Produk
   Widget _kodeProdukTextField() {
     return TextFormField(
       decoration: const InputDecoration(
@@ -101,7 +100,6 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-  //Membuat Textbox Nama Produk
   Widget _namaProdukTextField() {
     return TextFormField(
       decoration: const InputDecoration(
@@ -117,7 +115,6 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-  //Membuat Textbox Harga Produk
   Widget _hargaProdukTextField() {
     return TextFormField(
       decoration: const InputDecoration(
@@ -133,7 +130,6 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-  // create button submit
   Widget _buttonSubmit() {
     return RaisedButton(
       child: Text(tombolSubmit),
