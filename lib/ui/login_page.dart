@@ -22,76 +22,55 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('TokoKita.com'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text(
-              'Daftar',
-              style: TextStyle(color: Colors.white),
-            ),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RegistrasiPage(),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'TokoKita.com',
-              style: TextStyle(
-                fontSize: 35,
-                fontWeight: FontWeight.bold,
-                color: Colors.blue,
-                fontFamily: 'Pacifico',
+        child: Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image.asset(
+                'images/tokokitalogo.png',
+                width: 150,
+                height: 120,
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              "Login",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
+              SizedBox(
+                child: _isLoading ? CircularProgressIndicator() : null,
+                height: 20,
+                width: 50,
               ),
-            ),
-            SizedBox(
-              child: _isLoading ? CircularProgressIndicator() : null,
-              height: 20,
-              width: 50,
-            ),
-            Padding(padding: EdgeInsets.all(5)),
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _emailTextField(),
-                  _passwordTextField(),
-                  SizedBox(height: 50),
-                  _loginButton(),
-                  SizedBox(height: 50),
-                  // create text
-                  Text(
-                    'Nyalakan Localhost Server',
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
-                        fontFamily: "roboto"),
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  color: Color.fromARGB(248, 106, 203, 248),
+                ),
+                padding: const EdgeInsets.all(10.0),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Login",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 30,
+                          color: Colors.white,
+                        ),
+                      ),
+                      SizedBox(height: 30),
+                      _emailTextField(),
+                      _passwordTextField(),
+                      SizedBox(height: 30),
+                      _loginButton(),
+                      SizedBox(height: 30),
+                      _menuRegistrasi(),
+                      SizedBox(height: 30),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
-          // create copy right
-          textBaseline: TextBaseline.alphabetic,
+            ],
+          ),
         ),
       ),
     );
@@ -101,13 +80,23 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
         padding: EdgeInsets.all(10),
         child: TextFormField(
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
-              prefixIcon: Icon(Icons.email),
-              labelText: 'Email',
-              labelStyle: TextStyle(color: Colors.black),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+            prefixIcon: Icon(
+              Icons.email,
+              color: Colors.white,
+            ),
+            labelText: 'Email',
+            labelStyle: TextStyle(color: Colors.white),
+            // underline
+
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+          ),
           obscureText: false,
           controller: _emailTextboxController,
           validator: (value) {
@@ -123,13 +112,18 @@ class _LoginPageState extends State<LoginPage> {
     return Padding(
         padding: EdgeInsets.all(10),
         child: TextFormField(
-          style: TextStyle(color: Colors.black),
+          style: TextStyle(color: Colors.white),
           decoration: InputDecoration(
-              prefixIcon: Icon(Icons.lock),
-              labelText: 'Password',
-              labelStyle: TextStyle(color: Colors.black),
-              border:
-                  OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
+            prefixIcon: Icon(Icons.lock, color: Colors.white),
+            labelText: 'Password',
+            labelStyle: TextStyle(color: Colors.white),
+            enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.white),
+            ),
+          ),
           obscureText: true,
           controller: _passwordTextboxController,
           validator: (value) {
@@ -172,8 +166,8 @@ class _LoginPageState extends State<LoginPage> {
     return Center(
       child: InkWell(
         child: const Text(
-          "Registrasi",
-          style: TextStyle(color: Colors.red),
+          "Registrasi?",
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
         ),
         onTap: () {
           Navigator.push(context,
@@ -186,11 +180,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget _loginButton() {
     return StreamBuilder<bool>(
       builder: (context, snapshot) {
-        return RaisedButton(
-          color: Colors.blue,
+        return ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.white,
+            shadowColor: Colors.black,
+            minimumSize: const Size.fromHeight(50),
+          ),
           child: Text(
             'Login',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.black),
           ),
           onPressed: () {
             if (_formKey.currentState!.validate()) {

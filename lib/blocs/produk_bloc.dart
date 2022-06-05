@@ -46,23 +46,12 @@ class ProdukBloc {
     return jsonObj['data'];
   }
 
-  static Future<bool> deleteProduk(Required required, param1,
-      {required Produk produk}) async {
-    String apiUrl = ApiUrl.deleteProduk(produk.id!);
+  static Future<bool> deleteProduk(idProduk, {required Produk produk}) async {
+    String apiUrl = ApiUrl.deleteProduk(produk.idProduk);
     var response = await Api().delete(apiUrl);
     var jsonObj = json.decode(response.body);
     return jsonObj['data'];
   }
 
-  static Future<bool> deleteProdukById({required int id}) async {
-    String apiUrl = ApiUrl.deleteProduk(id);
-
-    var response = await Api().delete(apiUrl);
-    var jsonObj = json.decode(response.body);
-    return jsonObj['data'];
-  }
-
-  hapusProduk(idProduk) {
-    deleteProdukById(id: idProduk);
-  }
+  void dispose() {}
 }

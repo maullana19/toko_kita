@@ -1,8 +1,5 @@
-// ignore_for_file: deprecated_member_use
-
-import 'dart:math';
+import 'dart:core';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_lans/models/produk.dart';
 import 'package:flutter_lans/ui/produk_form.dart';
 import 'package:flutter_lans/ui/produk_detail.dart';
@@ -12,7 +9,7 @@ import 'dart:convert';
 import 'dart:async';
 
 class ProdukDetail extends StatefulWidget {
-  Produk? produk;
+  Produk? produk = null;
   ProdukDetail({Key? key, this.produk}) : super(key: key);
   @override
   _ProdukDetailState createState() => _ProdukDetailState();
@@ -23,6 +20,8 @@ class _ProdukDetailState extends State<ProdukDetail> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _produkBloc = ProdukBloc();
   Produk? _produk;
+
+  var produk;
 
   @override
   void initState() {
@@ -52,6 +51,12 @@ class _ProdukDetailState extends State<ProdukDetail> {
                 ),
               );
             },
+          ),
+          // delete without confirmation
+          IconButton(
+            tooltip: 'Hapus?',
+            icon: Icon(Icons.delete),
+            onPressed: () {},
           ),
         ],
       ),
@@ -94,7 +99,6 @@ class _ProdukDetailState extends State<ProdukDetail> {
                   SizedBox(
                     height: 20,
                   ),
-                  _tombolHapusEdit(),
                 ],
               )),
         ),
@@ -102,47 +106,6 @@ class _ProdukDetailState extends State<ProdukDetail> {
     );
   }
 
-  Widget _tombolHapusEdit() {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        //Tombol Edit
-        OutlinedButton(
-            child: const Text("EDIT"),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => ProdukForm(
-                            produk: widget.produk!,
-                          )));
-            }),
-        //Tombol Hapus
-        OutlinedButton(
-            child: const Text("DELETE"), onPressed: () => confirmHapus()),
-      ],
-    );
-  }
-
-  void confirmHapus() {
-    AlertDialog alertDialog = AlertDialog(
-      content: const Text("Yakin ingin menghapus data ini?"),
-      actions: [
-        //tombol hapus
-        OutlinedButton(
-          child: const Text("Ya"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        //tombol batal
-        OutlinedButton(
-          child: const Text("Batal"),
-          onPressed: () => Navigator.pop(context),
-        )
-      ],
-    );
-
-    showDialog(builder: (context) => alertDialog, context: context);
-  }
+  void showWarningDialog(
+      BuildContext context, String s, String t, Null Function() param3) {}
 }

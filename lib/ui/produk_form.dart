@@ -49,7 +49,7 @@ class _ProdukFormState extends State<ProdukForm> {
     return Scaffold(
       //  create app bar
       appBar: AppBar(
-        title: Text("Add Produk"),
+        title: Text("Add Produk / Edit"),
       ),
       body: SingleChildScrollView(
         child: Padding(
