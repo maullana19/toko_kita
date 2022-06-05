@@ -9,6 +9,9 @@ import 'package:flutter_lans/ui/produk_detail.dart';
 import 'package:flutter_lans/ui/produk_form.dart';
 import 'package:flutter_lans/ui/profile_page.dart';
 import 'package:flutter_lans/ui/member.dart';
+import 'package:flutter_lans/widgets/warning_dialog.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_lans/models/user.dart';
 
 class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key}) : super(key: key);
@@ -18,11 +21,15 @@ class ProdukPage extends StatefulWidget {
 }
 
 class _ProdukPageState extends State<ProdukPage> {
+  // get user info
+  User userInfo = User();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('TokoKita.com'),
+        primary: true,
+        backgroundColor: Colors.lightBlue,
+        title: const Text('Dashboard'),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
@@ -36,17 +43,12 @@ class _ProdukPageState extends State<ProdukPage> {
           ),
         ],
       ),
-      // create drawer all menu
       drawer: Drawer(
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text('Admin'),
-              accountEmail: Text('email : '),
-              currentAccountPicture: CircleAvatar(
-                backgroundColor: Colors.white,
-                child: Text('A'),
-              ),
+              accountName: Text("Admin"),
+              accountEmail: Text("Admin@gmail.com "),
             ),
             ListTile(
               title: Text('Home'),
@@ -85,37 +87,30 @@ class _ProdukPageState extends State<ProdukPage> {
           ],
         ),
       ),
-
-      body: FutureBuilder<List>(
-        future: ProdukBloc.getProduks(),
-        builder: (context, AsyncSnapshot<List> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting ||
-              snapshot.connectionState == ConnectionState.none) {
-            return Center(child: CircularProgressIndicator());
-          }
-          if (snapshot.hasError) print(snapshot.error);
-          return snapshot.hasData
-              ? ListProduk(
-                  list: snapshot.data,
-                )
-              : const Center(
-                  child: CircularProgressIndicator(),
-                );
-        },
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.note_alt),
-        onPressed: () {
-          showModalBottomSheet(
-              context: context,
-              builder: (BuildContext context) {
-                return Center(
-                  child: Text(
-                      'Untuk Menghapus Tekan List yang ingin dihapus dengan Lama'),
-                );
+      body: Container(
+        child: Center(
+          child: FutureBuilder<List>(
+            future: ProdukBloc.getProduks(),
+            builder: (context, AsyncSnapshot<List> snapshot) {
+              EasyLoading.show(status: 'TokoKita.com');
+              Future.delayed(Duration(seconds: 3), () {
+                EasyLoading.dismiss();
               });
-        },
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.connectionState == ConnectionState.none) {
+                return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasError) print(snapshot.error);
+              return snapshot.hasData
+                  ? ListProduk(
+                      list: snapshot.data,
+                    )
+                  : const Center(
+                      child: CircularProgressIndicator(),
+                    );
+            },
+          ),
+        ),
       ),
     );
   }

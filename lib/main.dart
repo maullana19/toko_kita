@@ -4,6 +4,7 @@ import 'package:flutter_lans/helpers/user_info.dart';
 import 'package:flutter_lans/ui/login_page.dart';
 import 'package:flutter_lans/ui/produk_page.dart';
 import 'package:flutter_lans/ui/profile_page.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
@@ -45,6 +46,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Toko Kita',
       debugShowCheckedModeBanner: false,
       home: LoginPage(),
+      builder: EasyLoading.init(),
     );
   }
 }
