@@ -52,11 +52,15 @@ class _ProdukDetailState extends State<ProdukDetail> {
               );
             },
           ),
-          // delete without confirmation
+          // delete button
           IconButton(
             tooltip: 'Hapus?',
             icon: Icon(Icons.delete),
-            onPressed: () {},
+            onPressed: () {
+              ProdukBloc.deleteProduk(_produk!.id).then(
+                (value) {},
+              );
+            },
           ),
         ],
       ),
@@ -108,4 +112,6 @@ class _ProdukDetailState extends State<ProdukDetail> {
 
   void showWarningDialog(
       BuildContext context, String s, String t, Null Function() param3) {}
+
+  void showErrorDialog(BuildContext context, String s) {}
 }

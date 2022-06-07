@@ -4,6 +4,7 @@ import 'package:flutter_lans/helpers/user_info.dart';
 import 'package:flutter_lans/ui/produk_page.dart';
 import 'package:flutter_lans/ui/registrasi_page.dart';
 import 'package:flutter_lans/widgets/warning_dialog.dart';
+import 'package:flutter_lans/frontend/ui/login_user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        "Login",
+                        "Login (Admin)",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 30,
@@ -63,8 +64,45 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: 30),
                       _loginButton(),
                       SizedBox(height: 30),
-                      _menuRegistrasi(),
-                      SizedBox(height: 30),
+                      Row(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Belum punya akun? ",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => RegistrasiPage(),
+                                    ),
+                                  );
+                                },
+                                child: Text(
+                                  "Daftar",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 150),
+                          Row(
+                            children: [
+                              _ButtonLoginUserPagess(),
+                            ],
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),
@@ -197,6 +235,29 @@ class _LoginPageState extends State<LoginPage> {
           },
         );
       },
+    );
+  }
+
+  // create widget button right
+  Widget _ButtonLoginUserPagess() {
+    return Center(
+      child: InkWell(
+        child: const Text(
+          "Login User Page",
+          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
+        ),
+        onTap: () {
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => LoginUserPage()));
+        },
+      ),
+    );
+  }
+
+  // create widget spacebeetwen
+  Widget _spaceBeetwen() {
+    return SizedBox(
+      height: 20,
     );
   }
 }

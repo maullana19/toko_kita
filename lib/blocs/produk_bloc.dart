@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter_lans/helpers/api.dart';
 import 'package:flutter_lans/helpers/api_url.dart';
 import 'package:flutter_lans/models/produk.dart';
@@ -18,6 +19,14 @@ class ProdukBloc {
     return produks;
   }
 
+  static Future<Produk> getProdukById(int id) async {
+    String apiUrl = ApiUrl.getProduk(id) + id.toString();
+    var response = await Api().get(apiUrl);
+    var jsonObj = json.decode(response.body);
+    Produk produk = Produk.fromJson(jsonObj);
+    return produk;
+  }
+
   static Future addProduk({Produk? produk}) async {
     String apiUrl = ApiUrl.createProduk;
 
@@ -33,7 +42,7 @@ class ProdukBloc {
   }
 
   static Future<bool> updateProduk({required Produk produk}) async {
-    String apiUrl = ApiUrl.updateProduk(produk.id!);
+    String apiUrl = ApiUrl.updateProduk(produk.id);
 
     var body = {
       "kode_produk": produk.kodeProduk,
@@ -46,9 +55,10 @@ class ProdukBloc {
     return jsonObj['data'];
   }
 
-  static Future<bool> deleteProduk(idProduk, {required Produk produk}) async {
-    String apiUrl = ApiUrl.deleteProduk(produk.idProduk);
-    var response = await Api().delete(apiUrl);
+  // delete produk by id
+  static Future<bool> deleteProduk(int id) async {
+    String apiUrl = ApiUrl.deleteProduk(id.toString());
+    var response = await Api().delete(Uri.parse(apiUrl));
     var jsonObj = json.decode(response.body);
     return jsonObj['data'];
   }

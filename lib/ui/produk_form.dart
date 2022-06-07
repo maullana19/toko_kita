@@ -152,7 +152,7 @@ class _ProdukFormState extends State<ProdukForm> {
     setState(() {
       _isLoading = true;
     });
-    Produk createProduk = Produk(id: null);
+    Produk createProduk = Produk(id: widget.produk!.id);
     createProduk.kodeProduk = _kodeProdukTextboxController.text;
     createProduk.namaProduk = _namaProdukTextboxController.text;
     createProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
@@ -177,8 +177,7 @@ class _ProdukFormState extends State<ProdukForm> {
     setState(() {
       _isLoading = true;
     });
-    Produk updateProduk = Produk(id: null);
-    updateProduk.id = widget.produk!.id;
+    Produk updateProduk = Produk(id: widget.produk!.id);
     updateProduk.kodeProduk = _kodeProdukTextboxController.text;
     updateProduk.namaProduk = _namaProdukTextboxController.text;
     updateProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
@@ -189,7 +188,7 @@ class _ProdukFormState extends State<ProdukForm> {
       showDialog(
           context: context,
           builder: (BuildContext context) => const WarningDialog(
-                description: "Permintaan ubah data gagal, silahkan cobalagi",
+                description: "Simpan gagal, silahkan coba lagi",
               ));
     });
     setState(() {

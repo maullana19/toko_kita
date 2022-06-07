@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lans/models/registrasi.dart';
 
 class Produk {
-  int? id;
+  int id;
   String? kodeProduk;
   String? namaProduk;
   int? hargaProduk;
-  Produk({this.id, this.kodeProduk, this.namaProduk, this.hargaProduk});
+  Produk(
+      {required this.id, this.kodeProduk, this.namaProduk, this.hargaProduk});
   factory Produk.fromJson(Map<String, dynamic> obj) {
     return Produk(
         id: obj['id'],
@@ -14,6 +15,4 @@ class Produk {
         namaProduk: obj['nama_produk'],
         hargaProduk: obj['harga']);
   }
-
-  get idProduk => null;
 }

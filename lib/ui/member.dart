@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_lans/helpers/user_info.dart';
 import 'package:flutter_lans/blocs/logout_bloc.dart';
 import 'package:flutter_lans/blocs/produk_bloc.dart';
+import 'package:flutter_lans/blocs/member_bloc.dart';
 import 'package:flutter_lans/models/produk.dart';
+import 'package:flutter_lans/models/user.dart';
 import 'package:flutter_lans/ui/login_page.dart';
 import 'package:flutter_lans/ui/produk_detail.dart';
 import 'package:flutter_lans/ui/produk_form.dart';
@@ -11,7 +13,6 @@ import 'package:flutter_lans/ui/produk_page.dart';
 import 'package:flutter_lans/ui/profile_page.dart';
 import 'package:http/http.dart' as http;
 
-// create list member
 class MemberPage extends StatefulWidget {
   const MemberPage({Key? key}) : super(key: key);
 
@@ -21,28 +22,110 @@ class MemberPage extends StatefulWidget {
 
 class _MemberPageState extends State<MemberPage> {
   final LogoutBloc _logoutBloc = LogoutBloc();
-  final ProdukBloc _produkBloc = ProdukBloc();
+  final MemberBloc _memberBloc = MemberBloc();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // create appbar back
       appBar: AppBar(
         title: const Text('Member Data'),
       ),
-      body: ListView.builder(
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return ListTile(
-            title: Text('Member' + index.toString()),
-            leading: Icon(Icons.person),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ProfilesPages()));
-            },
+      body: StreamBuilder<User>(
+        stream: _memberBloc.userStream,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView(
+              children: <Widget>[
+                ListTile(
+                  leading: const Icon(Icons.person),
+                  title: Text(snapshot.data!.nama_user.toString()),
+                  subtitle: Text(snapshot.data!.email_user.toString()),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.exit_to_app),
+                  title: const Text('Logout'),
+                  onTap: () {},
+                ),
+              ],
+            );
+          } else if (snapshot.hasError) {
+            return Text(snapshot.error.toString());
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class ListMembers extends StatelessWidget {
+  String? listz;
+  int? daftarMember;
+  int? length;
+
+  ListMembers({
+    required this.listz,
+    this.daftarMember,
+    this.length,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Member Data'),
+      ),
+      body: FutureBuilder<List<User>>(
+        future: MemberBloc.getAllDataUser(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data?.length,
+              itemBuilder: (context, index) {
+                User user = snapshot.data![index];
+                return ListTile(
+                  title: Text(User.getNama(user)),
+                  subtitle: Text(User.getEmail(user)),
+                  onTap: () {},
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text('${snapshot.error}');
+          }
+          return Center(
+            child: CircularProgressIndicator(),
           );
         },
       ),
+    );
+  }
+}
+
+// create list member
+class memberItem extends StatelessWidget {
+  final User? member;
+
+  const memberItem({Key? key, this.member}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      title: Text(member?.nama_user ?? 'Nama'),
+      leading: Icon(Icons.person),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProdukPage(
+              memberId: member?.id_user,
+            ),
+          ),
+        );
+      },
     );
   }
 }

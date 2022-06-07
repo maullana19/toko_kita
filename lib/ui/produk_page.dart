@@ -14,15 +14,13 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_lans/models/user.dart';
 
 class ProdukPage extends StatefulWidget {
-  const ProdukPage({Key? key}) : super(key: key);
+  const ProdukPage({Key? key, memberId}) : super(key: key);
 
   @override
   State<ProdukPage> createState() => _ProdukPageState();
 }
 
 class _ProdukPageState extends State<ProdukPage> {
-  // get user info
-  User userInfo = User();
   @override
   Widget build(BuildContext context) {
     return Scaffold(

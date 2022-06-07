@@ -78,5 +78,6 @@ class ProfilesPages extends StatelessWidget {
         ),
       ),
     );
+    Navigator.pop(context);
   }
 }

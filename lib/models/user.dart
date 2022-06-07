@@ -1,27 +1,31 @@
 import 'package:flutter/material.dart';
+import 'dart:ffi';
 
-// create model user
 class User {
-  String? id;
-  String? email;
+  String? id_user;
+  String? email_user;
   String? password;
-  String? nama;
-  String? alamat;
-  String? nohp;
-  String? foto;
-  User(
-      {this.id,
-      this.email,
-      this.password,
-      this.nama,
-      this.alamat,
-      this.nohp,
-      this.foto});
+  String? nama_user;
+  User({
+    this.id_user,
+    this.email_user,
+    this.password,
+    this.nama_user,
+  });
   factory User.fromJson(Map<String, dynamic> obj) {
     return User(
-        id: obj['id'],
-        email: obj['email'],
-        password: obj['password'],
-        nama: obj['nama']);
+      id_user: obj['id_user'],
+      nama_user: obj['nama_user'],
+      email_user: obj['email_user'],
+      password: obj['password'],
+    );
+  }
+
+  static String getNama(User user) {
+    return user.nama_user!;
+  }
+
+  static String getEmail(User user) {
+    return user.email_user!;
   }
 }

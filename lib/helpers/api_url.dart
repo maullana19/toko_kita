@@ -4,11 +4,13 @@ class ApiUrl {
   static const String login = baseUrl + '/login';
   static const String listProduk = baseUrl + '/produk';
   static const String createProduk = baseUrl + '/produk';
+  static const dataMember = baseUrl + '/user';
+
   static String updateProduk(int id) {
     return baseUrl + '/produk/' + id.toString() + '/update';
   }
 
-  static String deleteProduk(int id) {
+  static String deleteProduk(String id) {
     return baseUrl + '/produk/' + id.toString() + '/delete';
   }
 
@@ -26,5 +28,9 @@ class ApiUrl {
 
   static String getProdukByHarga(int harga) {
     return baseUrl + '/produk/harga/' + harga.toString();
+  }
+
+  static String getUserData() {
+    return baseUrl + '/user';
   }
 }
