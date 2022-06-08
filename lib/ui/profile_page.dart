@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/helpers/user_info.dart';
-import 'package:flutter_lans/ui/profile_page.dart';
+import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/ui/profile_page.dart';
 
 class ProfilesPages extends StatelessWidget {
   const ProfilesPages({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/blocs/registrasi_bloc.dart';
-import 'package:flutter_lans/widgets/success_dialog.dart';
-import 'package:flutter_lans/widgets/warning_dialog.dart';
+import 'package:toko_kita/blocs/registrasi_bloc.dart';
+import 'package:toko_kita/widgets/success_dialog.dart';
+import 'package:toko_kita/widgets/warning_dialog.dart';
 
 class RegistrasiPage extends StatefulWidget {
   const RegistrasiPage({Key? key}) : super(key: key);

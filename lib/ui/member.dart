@@ -1,16 +1,16 @@
 import 'dart:js_util';
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/helpers/user_info.dart';
-import 'package:flutter_lans/blocs/logout_bloc.dart';
-import 'package:flutter_lans/blocs/produk_bloc.dart';
-import 'package:flutter_lans/blocs/member_bloc.dart';
-import 'package:flutter_lans/models/produk.dart';
-import 'package:flutter_lans/models/user.dart';
-import 'package:flutter_lans/ui/login_page.dart';
-import 'package:flutter_lans/ui/produk_detail.dart';
-import 'package:flutter_lans/ui/produk_form.dart';
-import 'package:flutter_lans/ui/produk_page.dart';
-import 'package:flutter_lans/ui/profile_page.dart';
+import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/blocs/logout_bloc.dart';
+import 'package:toko_kita/blocs/produk_bloc.dart';
+import 'package:toko_kita/blocs/member_bloc.dart';
+import 'package:toko_kita/models/produk.dart';
+import 'package:toko_kita/models/user.dart';
+import 'package:toko_kita/ui/login_page.dart';
+import 'package:toko_kita/ui/produk_detail.dart';
+import 'package:toko_kita/ui/produk_form.dart';
+import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/ui/profile_page.dart';
 import 'package:http/http.dart' as http;
 
 class MemberPage extends StatefulWidget {

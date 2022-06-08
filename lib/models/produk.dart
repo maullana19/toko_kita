@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/models/registrasi.dart';
+import 'package:toko_kita/models/registrasi.dart';
 
 class Produk {
   int id;

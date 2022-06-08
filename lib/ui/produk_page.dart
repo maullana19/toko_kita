@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
-import 'package:flutter_lans/helpers/user_info.dart';
-import 'package:flutter_lans/blocs/logout_bloc.dart';
-import 'package:flutter_lans/blocs/produk_bloc.dart';
-import 'package:flutter_lans/models/produk.dart';
-import 'package:flutter_lans/ui/login_page.dart';
-import 'package:flutter_lans/ui/produk_detail.dart';
-import 'package:flutter_lans/ui/produk_form.dart';
-import 'package:flutter_lans/ui/profile_page.dart';
-import 'package:flutter_lans/ui/member.dart';
-import 'package:flutter_lans/widgets/warning_dialog.dart';
+import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/blocs/logout_bloc.dart';
+import 'package:toko_kita/blocs/produk_bloc.dart';
+import 'package:toko_kita/models/produk.dart';
+import 'package:toko_kita/ui/login_page.dart';
+import 'package:toko_kita/ui/produk_detail.dart';
+import 'package:toko_kita/ui/produk_form.dart';
+import 'package:toko_kita/ui/profile_page.dart';
+import 'package:toko_kita/ui/member.dart';
+import 'package:toko_kita/widgets/warning_dialog.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:flutter_lans/models/user.dart';
+import 'package:toko_kita/models/user.dart';
 
 class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key, memberId}) : super(key: key);

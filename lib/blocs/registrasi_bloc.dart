@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'package:flutter_lans/helpers/api.dart';
-import 'package:flutter_lans/helpers/api_url.dart';
-import 'package:flutter_lans/models/registrasi.dart';
+import 'package:toko_kita/helpers/api.dart';
+import 'package:toko_kita/helpers/api_url.dart';
+import 'package:toko_kita/models/registrasi.dart';
 
 class RegistrasiBloc {
   static Future<Registrasi> registrasi(

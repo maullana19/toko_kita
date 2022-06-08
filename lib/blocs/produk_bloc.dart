@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:flutter_lans/helpers/api.dart';
-import 'package:flutter_lans/helpers/api_url.dart';
-import 'package:flutter_lans/models/produk.dart';
+import 'package:toko_kita/helpers/api.dart';
+import 'package:toko_kita/helpers/api_url.dart';
+import 'package:toko_kita/models/produk.dart';
 import 'package:meta/meta.dart';
 import 'dart:async';
 

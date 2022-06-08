@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/models/produk.dart';
+import 'package:toko_kita/models/produk.dart';
 
 class Registrasi {
   int? code;

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/blocs/produk_bloc.dart';
-import 'package:flutter_lans/models/produk.dart';
-import 'package:flutter_lans/ui/produk_page.dart';
-import 'package:flutter_lans/widgets/warning_dialog.dart';
+import 'package:toko_kita/blocs/produk_bloc.dart';
+import 'package:toko_kita/models/produk.dart';
+import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/widgets/warning_dialog.dart';
 
 class ProdukForm extends StatefulWidget {
   Produk? produk;

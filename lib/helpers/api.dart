@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
-import 'package:flutter_lans/helpers/user_info.dart';
+import 'package:toko_kita/helpers/user_info.dart';
 import 'app_exception.dart';
 
 class Api {

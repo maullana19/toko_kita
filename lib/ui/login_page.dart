@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/blocs/login_bloc.dart';
-import 'package:flutter_lans/helpers/user_info.dart';
-import 'package:flutter_lans/ui/produk_page.dart';
-import 'package:flutter_lans/ui/registrasi_page.dart';
-import 'package:flutter_lans/widgets/warning_dialog.dart';
-import 'package:flutter_lans/frontend/ui/login_user.dart';
+import 'package:toko_kita/blocs/login_bloc.dart';
+import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/ui/registrasi_page.dart';
+import 'package:toko_kita/widgets/warning_dialog.dart';
+import 'package:toko_kita/frontend/ui/login_user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);

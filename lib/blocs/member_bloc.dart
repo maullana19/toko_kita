@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_lans/helpers/api.dart';
-import 'package:flutter_lans/models/user.dart';
+import 'package:toko_kita/helpers/api.dart';
+import 'package:toko_kita/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../helpers/api_url.dart';
