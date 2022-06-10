@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:toko_kita/helpers/api.dart';
 import 'package:toko_kita/helpers/api_url.dart';
 import 'package:toko_kita/models/produk.dart';
-import 'package:meta/meta.dart';
 import 'dart:async';
 
 class ProdukBloc {
+  static var instance;
+
   static Future<List<Produk>> getProduks() async {
     String apiUrl = ApiUrl.listProduk;
     var response = await Api().get(apiUrl);
@@ -27,8 +27,8 @@ class ProdukBloc {
     return produk;
   }
 
-  static Future addProduk({Produk? produk}) async {
-    String apiUrl = ApiUrl.createProduk;
+  static Future addProduk({required Produk? produk}) async {
+    String apiUrl = ApiUrl.addProduk;
 
     var body = {
       "kode_produk": produk!.kodeProduk,
@@ -41,26 +41,25 @@ class ProdukBloc {
     return jsonObj['status'];
   }
 
-  static Future<bool> updateProduk({required Produk produk}) async {
-    String apiUrl = ApiUrl.updateProduk(produk.id);
+  static Future updateProduk({Produk? produk}) async {
+    String apiUrl = ApiUrl.updateProduk(produk!.id!);
 
     var body = {
       "kode_produk": produk.kodeProduk,
       "nama_produk": produk.namaProduk,
       "harga": produk.hargaProduk.toString()
     };
-    print("Body : $body");
+
     var response = await Api().post(apiUrl, body);
     var jsonObj = json.decode(response.body);
-    return jsonObj['data'];
+    return jsonObj['status'];
   }
 
-  // delete produk by id
-  static Future<bool> deleteProduk(int id) async {
-    String apiUrl = ApiUrl.deleteProduk(id.toString());
-    var response = await Api().delete(Uri.parse(apiUrl));
+  static Future deleteProduk(int? id) async {
+    String apiUrl = ApiUrl.deleteProduk(id!);
+    var response = await Api().delete(apiUrl);
     var jsonObj = json.decode(response.body);
-    return jsonObj['data'];
+    return jsonObj['status'];
   }
 
   void dispose() {}

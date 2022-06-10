@@ -5,11 +5,10 @@ import 'package:toko_kita/ui/produk_form.dart';
 import 'package:toko_kita/ui/produk_detail.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
-import 'dart:convert';
 import 'dart:async';
 
 class ProdukDetail extends StatefulWidget {
-  Produk? produk = null;
+  Produk? produk;
   ProdukDetail({Key? key, this.produk}) : super(key: key);
   @override
   _ProdukDetailState createState() => _ProdukDetailState();
@@ -20,8 +19,6 @@ class _ProdukDetailState extends State<ProdukDetail> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   final _produkBloc = ProdukBloc();
   Produk? _produk;
-
-  var produk;
 
   @override
   void initState() {
@@ -93,11 +90,56 @@ class _ProdukDetailState extends State<ProdukDetail> {
                   SizedBox(
                     height: 20,
                   ),
+                  _tombolHapusEdit()
                 ],
               )),
         ),
       ),
     );
+  }
+
+  Widget _tombolHapusEdit() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        //Tombol Edit
+        OutlinedButton(
+            child: const Text("EDIT"),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProdukForm(
+                            produk: widget.produk!,
+                          )));
+            }),
+        //Tombol Hapus
+        OutlinedButton(
+            child: const Text("DELETE"), onPressed: () => confirmHapus()),
+      ],
+    );
+  }
+
+  confirmHapus() {
+    AlertDialog alertDialog = AlertDialog(
+      content: const Text("Yakin ingin menghapus data ini?"),
+      actions: [
+        FlatButton(
+          child: const Text("HAPUS"),
+          onPressed: () {
+            ProdukBloc.deleteProduk(_produk?.id);
+            Navigator.pop(context);
+          },
+        ),
+        //tombol batal
+        OutlinedButton(
+          child: const Text("Batal"),
+          onPressed: () => Navigator.pop(context),
+        )
+      ],
+    );
+
+    showDialog(builder: (context) => alertDialog, context: context);
   }
 
   void showWarningDialog(

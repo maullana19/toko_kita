@@ -32,11 +32,12 @@ class _ProdukPageState extends State<ProdukPage> {
           IconButton(
             icon: const Icon(Icons.add),
             onPressed: () {
-              showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return ProdukForm();
-                  });
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ProdukForm(),
+                ),
+              );
             },
           ),
         ],
@@ -134,7 +135,6 @@ class ListProduk extends StatelessWidget {
 class ItemProduk extends StatelessWidget {
   final Produk? produk;
   const ItemProduk({Key? key, required this.produk}) : super(key: key);
-  final double _height = 100;
 
   @override
   Widget build(BuildContext context) {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:toko_kita/frontend/ui/daftar_user.dart';
 
 class LoginUserPage extends StatelessWidget {
   final _emailUserTextboxController = TextEditingController();
   final _passwordUserTextboxController = TextEditingController();
+
+  BuildContext? get context => null;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +65,20 @@ class LoginUserPage extends StatelessWidget {
                         RaisedButton(
                           child: Text('Login'),
                           onPressed: () {},
+                        ),
+                        SizedBox(
+                          height: 20.0,
+                        ),
+                        RaisedButton(
+                          child: Text('Daftar'),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => registrasiUser(),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),

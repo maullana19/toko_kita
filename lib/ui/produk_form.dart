@@ -6,6 +6,7 @@ import 'package:toko_kita/widgets/warning_dialog.dart';
 
 class ProdukForm extends StatefulWidget {
   Produk? produk;
+
   ProdukForm({Key? key, this.produk}) : super(key: key);
 
   @override
@@ -73,7 +74,19 @@ class _ProdukFormState extends State<ProdukForm> {
                 SizedBox(
                   height: 20,
                 ),
-                _buttonSubmit(),
+                // add button
+                RaisedButton(
+                  child: Text(tombolSubmit),
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      if (widget.produk == null) {
+                        _addProduk();
+                      } else {
+                        ubah();
+                      }
+                    }
+                  },
+                ),
                 SizedBox(
                   height: 20,
                 ),
@@ -130,29 +143,11 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
-  Widget _buttonSubmit() {
-    return RaisedButton(
-      child: Text(tombolSubmit),
-      onPressed: () {
-        if (_formKey.currentState!.validate()) {
-          setState(() {
-            _isLoading = true;
-          });
-          if (widget.produk == null) {
-            _addProduk();
-          } else {
-            ubah();
-          }
-        }
-      },
-    );
-  }
-
   _addProduk() {
     setState(() {
       _isLoading = true;
     });
-    Produk createProduk = Produk(id: widget.produk!.id);
+    Produk createProduk = Produk(id: widget.produk?.id);
     createProduk.kodeProduk = _kodeProdukTextboxController.text;
     createProduk.namaProduk = _namaProdukTextboxController.text;
     createProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
@@ -170,8 +165,6 @@ class _ProdukFormState extends State<ProdukForm> {
       _isLoading = false;
     });
   }
-
-  // simpan produk ke database
 
   ubah() {
     setState(() {

@@ -62,14 +62,14 @@ class _MemberPageState extends State<MemberPage> {
 }
 
 class ListMembers extends StatelessWidget {
-  String? listz;
-  int? daftarMember;
-  int? length;
+  final String? listz;
+  final int? daftarMember;
+  final int? length;
 
   ListMembers({
     required this.listz,
-    this.daftarMember,
-    this.length,
+    required this.daftarMember,
+    required this.length,
   });
 
   @override

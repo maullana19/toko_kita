@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
 import 'package:toko_kita/helpers/user_info.dart';
 import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/ui/produk_page.dart';
-import 'package:toko_kita/ui/profile_page.dart';
+import 'package:toko_kita/frontend/homescreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import './frontend/ui/login_user.dart';
-import 'package:http/http.dart' as http;
 
 void main() {
   runApp(const MyApp());
