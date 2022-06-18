@@ -1,12 +1,15 @@
-import 'package:flutter/material.dart';
-
 class Login {
   int? code;
   bool? status;
   String? token;
   int? userID;
   String? userEmail;
-  Login({this.code, this.status, this.token, this.userID, this.userEmail});
+  Login(
+      {this.code,
+      this.status,
+      this.token,
+      this.userID,
+      this.userEmail});
   factory Login.fromJson(Map<String, dynamic> obj) {
     return Login(
         code: obj['code'],

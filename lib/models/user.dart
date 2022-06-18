@@ -1,30 +1,28 @@
-import 'package:flutter/material.dart';
-
 class User {
-  String? id_user;
-  String? email_user;
+  String? idUser;
+  String? emailUser;
   String? password;
-  String? nama_user;
+  String? namaUser;
   User({
-    this.id_user,
-    this.email_user,
+    this.idUser,
+    this.emailUser,
     this.password,
-    this.nama_user,
+    this.namaUser,
   });
   factory User.fromJson(Map<String, dynamic> obj) {
     return User(
-      id_user: obj['id_user'],
-      nama_user: obj['nama_user'],
-      email_user: obj['email_user'],
+      idUser: obj['id_user'],
+      namaUser: obj['nama_user'],
+      emailUser: obj['email_user'],
       password: obj['password'],
     );
   }
 
   static String getNama(User user) {
-    return user.nama_user!;
+    return user.namaUser!;
   }
 
   static String getEmail(User user) {
-    return user.email_user!;
+    return user.emailUser!;
   }
 }

@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:convert';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'package:toko_kita/helpers/user_info.dart';
@@ -8,11 +7,12 @@ import 'app_exception.dart';
 class Api {
   Future<dynamic> post(dynamic url, dynamic data) async {
     var token = await UserInfo().getToken();
+    // ignore: prefer_typing_uninitialized_variables
     var responseJson;
     try {
-      final response = await http.post(Uri.parse(url),
-          body: data,
-          headers: {HttpHeaders.authorizationHeader: "Bearer $token"});
+      final response = await http.post(Uri.parse(url), body: data, headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      });
 
       responseJson = _returnResponse(response);
     } on SocketException {
@@ -23,10 +23,12 @@ class Api {
 
   Future<dynamic> get(dynamic url) async {
     var token = await UserInfo().getToken();
+    // ignore: prefer_typing_uninitialized_variables
     var responseJson;
     try {
-      final response = await http.get(Uri.parse(url),
-          headers: {HttpHeaders.authorizationHeader: "Bearer $token"});
+      final response = await http.get(Uri.parse(url), headers: {
+        HttpHeaders.authorizationHeader: "Bearer $token",
+      });
 
       responseJson = _returnResponse(response);
     } on SocketException {
@@ -37,6 +39,7 @@ class Api {
 
   Future<dynamic> delete(dynamic url) async {
     var token = await UserInfo().getToken();
+    // ignore: prefer_typing_uninitialized_variables
     var responseJson;
     try {
       final response = await http.delete(

@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:toko_kita/helpers/api.dart';
 import 'package:toko_kita/models/user.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../helpers/api_url.dart';
 
 class MemberBloc {
+  // ignore: prefer_typing_uninitialized_variables
   static var listMembers;
 
   get length => null;

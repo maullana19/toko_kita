@@ -1,17 +1,9 @@
-import 'dart:js_util';
 import 'package:flutter/material.dart';
-import 'package:toko_kita/helpers/user_info.dart';
 import 'package:toko_kita/blocs/logout_bloc.dart';
-import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/blocs/member_bloc.dart';
-import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/models/user.dart';
 import 'package:toko_kita/ui/login_page.dart';
-import 'package:toko_kita/ui/produk_detail.dart';
-import 'package:toko_kita/ui/produk_form.dart';
 import 'package:toko_kita/ui/produk_page.dart';
-import 'package:toko_kita/ui/profile_page.dart';
-import 'package:http/http.dart' as http;
 
 class MemberPage extends StatefulWidget {
   const MemberPage({Key? key}) : super(key: key);
@@ -38,20 +30,28 @@ class _MemberPageState extends State<MemberPage> {
               children: <Widget>[
                 ListTile(
                   leading: const Icon(Icons.person),
-                  title: Text(snapshot.data!.nama_user.toString()),
-                  subtitle: Text(snapshot.data!.email_user.toString()),
+                  title: Text(snapshot.data!.namaUser.toString()),
+                  subtitle: Text(snapshot.data!.emailUser.toString()),
                 ),
                 ListTile(
                   leading: const Icon(Icons.exit_to_app),
                   title: const Text('Logout'),
-                  onTap: () {},
+                  onTap: () {
+                    _logoutBloc.logout();
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const LoginPage(),
+                      ),
+                    );
+                  },
                 ),
               ],
             );
           } else if (snapshot.hasError) {
             return Text(snapshot.error.toString());
           } else {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
@@ -66,7 +66,8 @@ class ListMembers extends StatelessWidget {
   final int? daftarMember;
   final int? length;
 
-  ListMembers({
+  // ignore: use_key_in_widget_constructors
+  const ListMembers({
     required this.listz,
     required this.daftarMember,
     required this.length,
@@ -96,7 +97,7 @@ class ListMembers extends StatelessWidget {
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
-          return Center(
+          return const Center(
             child: CircularProgressIndicator(),
           );
         },
@@ -106,22 +107,22 @@ class ListMembers extends StatelessWidget {
 }
 
 // create list member
-class memberItem extends StatelessWidget {
+class MemberItem extends StatelessWidget {
   final User? member;
 
-  const memberItem({Key? key, this.member}) : super(key: key);
+  const MemberItem({Key? key, this.member}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(member?.nama_user ?? 'Nama'),
-      leading: Icon(Icons.person),
+      title: Text(member?.namaUser ?? 'Nama'),
+      leading: const Icon(Icons.person),
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => ProdukPage(
-              memberId: member?.id_user,
+              memberId: member?.idUser,
             ),
           ),
         );

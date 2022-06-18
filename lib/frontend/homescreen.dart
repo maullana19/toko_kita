@@ -8,7 +8,7 @@ class HomePages extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             color: Colors.white,
           ),
           child: Image.asset(

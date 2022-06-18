@@ -10,6 +10,7 @@ class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _LoginPageState createState() => _LoginPageState();
 }
 
@@ -35,14 +36,14 @@ class _LoginPageState extends State<LoginPage> {
                 height: 120,
               ),
               SizedBox(
-                child: _isLoading ? CircularProgressIndicator() : null,
                 height: 20,
                 width: 50,
+                child: _isLoading ? const CircularProgressIndicator() : null,
               ),
               Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
-                  color: Color.fromARGB(248, 106, 203, 248),
+                  color: const Color.fromARGB(248, 106, 203, 248),
                 ),
                 padding: const EdgeInsets.all(10.0),
                 child: Form(
@@ -50,7 +51,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         "Login (Admin)",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
@@ -58,17 +59,17 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       _emailTextField(),
                       _passwordTextField(),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       _loginButton(),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       Row(
                         children: [
                           Row(
                             children: [
-                              Text(
+                              const Text(
                                 "Belum punya akun? ",
                                 style: TextStyle(
                                   fontSize: 15,
@@ -80,11 +81,12 @@ class _LoginPageState extends State<LoginPage> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => RegistrasiPage(),
+                                      builder: (context) =>
+                                          const RegistrasiPage(),
                                     ),
                                   );
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Daftar",
                                   style: TextStyle(
                                     fontSize: 15,
@@ -95,10 +97,10 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-                          SizedBox(width: 150),
+                          const SizedBox(width: 150),
                           Row(
                             children: [
-                              _ButtonLoginUserPagess(),
+                              _buttonLoginUserPagess(),
                             ],
                           ),
                         ],
@@ -116,61 +118,63 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _emailTextField() {
     return Padding(
-        padding: EdgeInsets.all(10),
-        child: TextFormField(
-          style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            prefixIcon: Icon(
-              Icons.email,
-              color: Colors.white,
-            ),
-            labelText: 'Email',
-            labelStyle: TextStyle(color: Colors.white),
-            // underline
-
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.white),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(
+            Icons.email,
+            color: Colors.white,
           ),
-          obscureText: false,
-          controller: _emailTextboxController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'email harus diisi';
-            }
-            return null;
-          },
-        ));
+          labelText: 'Email',
+          labelStyle: TextStyle(color: Colors.white),
+          // underline
+
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+        ),
+        obscureText: false,
+        controller: _emailTextboxController,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'email harus diisi';
+          }
+          return null;
+        },
+      ),
+    );
   }
 
   Widget _passwordTextField() {
     return Padding(
-        padding: EdgeInsets.all(10),
-        child: TextFormField(
-          style: TextStyle(color: Colors.white),
-          decoration: InputDecoration(
-            prefixIcon: Icon(Icons.lock, color: Colors.white),
-            labelText: 'Password',
-            labelStyle: TextStyle(color: Colors.white),
-            enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: Colors.white),
-            ),
+      padding: const EdgeInsets.all(10),
+      child: TextFormField(
+        style: const TextStyle(color: Colors.white),
+        decoration: const InputDecoration(
+          prefixIcon: Icon(Icons.lock, color: Colors.white),
+          labelText: 'Password',
+          labelStyle: TextStyle(color: Colors.white),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
           ),
-          obscureText: true,
-          controller: _passwordTextboxController,
-          validator: (value) {
-            if (value!.isEmpty) {
-              return 'Password harus diisi';
-            }
-            return null;
-          },
-        ));
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+          ),
+        ),
+        obscureText: true,
+        controller: _passwordTextboxController,
+        validator: (value) {
+          if (value!.isEmpty) {
+            return 'Password harus diisi';
+          }
+          return null;
+        },
+      ),
+    );
   }
 
   void _submit() {
@@ -180,27 +184,31 @@ class _LoginPageState extends State<LoginPage> {
     });
     LoginBloc.login(
             email: _emailTextboxController.text,
-            password: _passwordTextboxController.text)
-        .then((value) async {
-      await UserInfo().setToken(value.token.toString());
-      await UserInfo().setUserID(int.parse(value.userID.toString()));
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const ProdukPage()));
-    }, onError: (error) {
-      print(error);
-      showDialog(
+            password: _passwordTextboxController.text.toString())
+        .then(
+      (value) async {
+        await UserInfo().setToken(value.token.toString());
+        await UserInfo().setUserID(value.userID!);
+        // ignore: use_build_context_synchronously
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const ProdukPage()));
+      },
+      onError: (error) {
+        showDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) => const WarningDialog(
-                description: "Login gagal, silahkan coba lagi guys !",
-              ));
-    });
+            description: "Login gagal, silahkan coba lagi guys !",
+          ),
+        );
+      },
+    );
     setState(() {
       _isLoading = false;
     });
   }
 
-  Widget _menuRegistrasi() {
+  Widget menuRegistrasi() {
     return Center(
       child: InkWell(
         child: const Text(
@@ -224,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
             shadowColor: Colors.black,
             minimumSize: const Size.fromHeight(50),
           ),
-          child: Text(
+          child: const Text(
             'Login',
             style: TextStyle(color: Colors.black),
           ),
@@ -239,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // create widget button right
-  Widget _ButtonLoginUserPagess() {
+  Widget _buttonLoginUserPagess() {
     return Center(
       child: InkWell(
         child: const Text(
@@ -255,8 +263,8 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // create widget spacebeetwen
-  Widget _spaceBeetwen() {
-    return SizedBox(
+  Widget spaceBeetwen() {
+    return const SizedBox(
       height: 20,
     );
   }

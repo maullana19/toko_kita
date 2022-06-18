@@ -1,6 +1,5 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:meta/meta.dart';
-import 'package:toko_kita/helpers/user_info.dart';
 import 'package:toko_kita/blocs/logout_bloc.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/models/produk.dart';
@@ -11,7 +10,6 @@ import 'package:toko_kita/ui/profile_page.dart';
 import 'package:toko_kita/ui/member.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:toko_kita/models/user.dart';
 
 class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key, memberId}) : super(key: key);
@@ -46,69 +44,98 @@ class _ProdukPageState extends State<ProdukPage> {
         child: ListView(
           children: [
             UserAccountsDrawerHeader(
-              accountName: Text("Admin"),
-              accountEmail: Text("Admin@gmail.com "),
+              onDetailsPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const ProfilePage(),
+                  ),
+                );
+              },
+              accountName: const Text("Admin"),
+              accountEmail: const Text("Admin@gmail.com "),
             ),
             ListTile(
-              title: Text('Home'),
-              leading: Icon(Icons.home),
+              title: const Text('Home'),
+              leading: const Icon(Icons.home),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: Text('List Produk'),
-              leading: Icon(Icons.list),
+              title: const Text('List Produk'),
+              leading: const Icon(Icons.list),
               onTap: () {
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: Text('List Member'),
-              leading: Icon(Icons.person),
+              title: const Text('List Member'),
+              leading: const Icon(Icons.person),
               onTap: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => MemberPage()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MemberPage()));
               },
             ),
             const Divider(
               height: 1.0,
             ),
             ListTile(
-              title: Text('Logout'),
-              leading: Icon(Icons.exit_to_app),
+              title: const Text('Logout'),
+              leading: const Icon(Icons.exit_to_app),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => LoginPage()));
+                showDialog(
+                  context: context,
+                  builder: (context) => WarningDialog(
+                    key: const Key('logout_dialog'),
+                    description: 'Apakah anda yakin ingin logout?',
+                    okClick: () {
+                      EasyLoading.show(
+                        status: 'Logout...',
+                        maskType: EasyLoadingMaskType.black,
+                      );
+                      // logout
+                      LogoutBloc().logout().then((value) {
+                        EasyLoading.dismiss();
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginPage(),
+                          ),
+                        );
+                      });
+                    },
+                  ),
+                );
               },
             ),
           ],
         ),
       ),
-      body: Container(
-        child: Center(
-          child: FutureBuilder<List>(
-            future: ProdukBloc.getProduks(),
-            builder: (context, AsyncSnapshot<List> snapshot) {
-              EasyLoading.show(status: 'TokoKita.com');
-              Future.delayed(Duration(seconds: 3), () {
-                EasyLoading.dismiss();
-              });
-              if (snapshot.connectionState == ConnectionState.waiting ||
-                  snapshot.connectionState == ConnectionState.none) {
-                return Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.hasError) print(snapshot.error);
-              return snapshot.hasData
-                  ? ListProduk(
-                      list: snapshot.data,
-                    )
-                  : const Center(
-                      child: CircularProgressIndicator(),
-                    );
-            },
-          ),
+      body: Center(
+        child: FutureBuilder<List>(
+          future: ProdukBloc.getProduks(),
+          builder: (context, AsyncSnapshot<List> snapshot) {
+            EasyLoading.show(status: 'TokoKita.com');
+            Future.delayed(const Duration(seconds: 3), () {
+              EasyLoading.dismiss();
+            });
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.connectionState == ConnectionState.none) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            // ignore: avoid_print
+            if (snapshot.hasError) print(snapshot.error);
+            return snapshot.hasData
+                ? ListProduk(
+                    list: snapshot.data,
+                  )
+                : const Center(
+                    child: CircularProgressIndicator(),
+                  );
+          },
         ),
       ),
     );
@@ -122,13 +149,21 @@ class ListProduk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: list == null ? 0 : list?.length,
-        itemBuilder: (context, i) {
-          return ItemProduk(
-            produk: list![i],
-          );
-        });
+    return GridView.builder(
+      padding: const EdgeInsets.all(10),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        childAspectRatio: 0.7,
+      ),
+      itemCount: list == null ? 0 : list?.length,
+      itemBuilder: (context, i) {
+        return ItemProduk(
+          produk: list![i],
+        );
+      },
+    );
   }
 }
 
@@ -139,26 +174,45 @@ class ItemProduk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: ListTile(
-        title: Text(produk!.namaProduk!),
-        contentPadding: EdgeInsets.all(10),
-        subtitle: Text("Kode :" +
-            produk!.kodeProduk! +
-            "\n " +
-            "Harga :" +
-            produk!.hargaProduk!.toString()),
-        leading: CircleAvatar(
-          backgroundColor: Colors.white,
-          child: Text(produk!.namaProduk![0]),
-        ),
+      elevation: 10,
+      child: InkWell(
         onTap: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => ProdukDetail(
-                        produk: produk,
-                      )));
+            context,
+            MaterialPageRoute(
+              builder: (context) => ProdukDetail(
+                produk: produk,
+              ),
+            ),
+          );
         },
+        child: Column(
+          children: [
+            // base64 image to image
+            Image.memory(
+              base64Decode("${produk?.gambarProduk}"),
+              fit: BoxFit.cover,
+              height: 200,
+            ),
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${produk?.namaProduk}",
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  Text(
+                    "Rp.${produk?.hargaProduk}",
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
