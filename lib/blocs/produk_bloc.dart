@@ -34,9 +34,9 @@ class ProdukBloc {
     var body = {
       "kode_produk": produk!.kodeProduk,
       "nama_produk": produk.namaProduk,
-      "harga": produk.hargaProduk.toString()
+      "harga": produk.hargaProduk.toString(),
+      "gambar_produk": produk.gambarProduk
     };
-
     var response = await Api().post(apiUrl, body);
     var jsonObj = json.decode(response.body);
     return jsonObj['status'];
@@ -48,7 +48,8 @@ class ProdukBloc {
     var body = {
       "kode_produk": produk.kodeProduk,
       "nama_produk": produk.namaProduk,
-      "harga": produk.hargaProduk.toString()
+      "harga": produk.hargaProduk.toString(),
+      "gambar_produk": produk.gambarProduk
     };
 
     var response = await Api().post(apiUrl, body);
