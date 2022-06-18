@@ -5,6 +5,7 @@ import 'package:toko_kita/models/produk.dart';
 import 'dart:async';
 
 class ProdukBloc {
+  // ignore: prefer_typing_uninitialized_variables
   static var instance;
 
   static Future<List<Produk>> getProduks() async {

@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:toko_kita/blocs/registrasi_bloc.dart';
 import 'package:toko_kita/widgets/success_dialog.dart';
@@ -6,6 +8,7 @@ import 'package:toko_kita/widgets/warning_dialog.dart';
 class RegistrasiPage extends StatefulWidget {
   const RegistrasiPage({Key? key}) : super(key: key);
   @override
+  // ignore: library_private_types_in_public_api
   _RegistrasiPageState createState() => _RegistrasiPageState();
 }
 
@@ -32,17 +35,17 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
                   'Isi Formulir Dibawah Ini',
                   style: Theme.of(context).textTheme.headline5,
                 ),
-                SizedBox(height: 35),
+                const SizedBox(height: 35),
                 _namaTextField(),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _emailTextField(),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _passwordTextField(),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 _passwordKonfirmasiTextField(),
-                SizedBox(height: 40),
+                const SizedBox(height: 40),
                 _buttonRegistrasi(),
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 _floatingActionBackButton()
               ],
             ),
@@ -55,7 +58,7 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
   Widget _namaTextField() {
     return TextFormField(
       controller: _namaTextboxController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Nama',
         border: OutlineInputBorder(),
       ),
@@ -71,7 +74,7 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
   Widget _emailTextField() {
     return TextFormField(
       controller: _emailTextboxController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Email',
         border: OutlineInputBorder(),
       ),
@@ -88,7 +91,7 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     return TextFormField(
       controller: _passwordTextboxController,
       obscureText: true,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Password',
         border: OutlineInputBorder(),
       ),
@@ -104,7 +107,7 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
   Widget _passwordKonfirmasiTextField() {
     return TextFormField(
       obscureText: true,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Konfirmasi Password',
         border: OutlineInputBorder(),
       ),
@@ -140,27 +143,34 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
             nama: _namaTextboxController.text,
             email: _emailTextboxController.text,
             password: _passwordTextboxController.text)
-        .then((value) {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (BuildContext context) => SuccessDialog(
-                description: "Registrasi berhasil, silahkan login",
-                okClick: () {
-                  Navigator.pop(context);
-                },
-              ));
-    }, onError: (error) {
-      showDialog(
+        .then(
+      (value) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => SuccessDialog(
+                  description: "Registrasi berhasil, silahkan login",
+                  okClick: () {
+                    Navigator.pop(context);
+                  },
+                ));
+      },
+      onError: (error) {
+        print(error);
+        showDialog(
           context: context,
           barrierDismissible: false,
           builder: (BuildContext context) => const WarningDialog(
-                description: "Registrasi gagal, silahkan coba lagi",
-              ));
-    });
-    setState(() {
-      _isLoading = false;
-    });
+            description: "Registrasi gagal, silahkan coba lagi",
+          ),
+        );
+      },
+    );
+    setState(
+      () {
+        _isLoading = false;
+      },
+    );
   }
 
   Widget _floatingActionBackButton() {

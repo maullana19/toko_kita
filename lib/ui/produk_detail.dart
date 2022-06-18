@@ -1,23 +1,23 @@
+// ignore_for_file: deprecated_member_use
+
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/produk_form.dart';
-import 'package:toko_kita/ui/produk_detail.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
-import 'package:toko_kita/widgets/warning_dialog.dart';
-import 'dart:async';
 
+// ignore: must_be_immutable
 class ProdukDetail extends StatefulWidget {
   Produk? produk;
   ProdukDetail({Key? key, this.produk}) : super(key: key);
   @override
+  // ignore: library_private_types_in_public_api
   _ProdukDetailState createState() => _ProdukDetailState();
 }
 
 class _ProdukDetailState extends State<ProdukDetail> {
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
-  final _produkBloc = ProdukBloc();
   Produk? _produk;
 
   @override
@@ -26,18 +26,17 @@ class _ProdukDetailState extends State<ProdukDetail> {
     _produk = widget.produk;
   }
 
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Detail Produk'),
+        title: const Text('Detail Produk'),
         actions: [
           IconButton(
             tooltip: 'Ubah?',
-            icon: Icon(Icons.edit),
+            icon: const Icon(Icons.edit),
             onPressed: () {
               Navigator.push(
                 context,
@@ -62,32 +61,32 @@ class _ProdukDetailState extends State<ProdukDetail> {
                     initialValue:
                         _produk?.kodeProduk!.toString() ?? 'Kode Produk',
                     maxLines: null,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'KODE PRODUK',
                     ),
                     onSaved: (value) => _produk?.kodeProduk = value,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     initialValue: _produk?.namaProduk,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Nama Produk',
                     ),
                     onSaved: (value) => _produk?.namaProduk = value,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   TextFormField(
                     initialValue: _produk?.hargaProduk.toString(),
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Harga Produk',
                     ),
                     onSaved: (value) => _produk?.hargaProduk,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   _tombolHapusEdit()

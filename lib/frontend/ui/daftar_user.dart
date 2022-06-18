@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 
-class registrasiUser extends StatelessWidget {
-  const registrasiUser({Key? key}) : super(key: key);
+class RegistrasiUser extends StatelessWidget {
+  const RegistrasiUser({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Text('Sedang Dibuat'),
-      ),
+    return const Center(
+      child: Text('Sedang Dibuat'),
     );
   }
 }

@@ -1,4 +1,4 @@
-package com.example.flutter_lans
+package com.example.toko_kita
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,21 +1,24 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
 
+// ignore: must_be_immutable
 class ProdukForm extends StatefulWidget {
   Produk? produk;
 
   ProdukForm({Key? key, this.produk}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _ProdukFormState createState() => _ProdukFormState();
 }
 
 class _ProdukFormState extends State<ProdukForm> {
   final _formKey = GlobalKey<FormState>();
-  bool _isLoading = false;
   String judul = "TAMBAH PRODUK";
   String tombolSubmit = "SIMPAN";
 
@@ -50,7 +53,7 @@ class _ProdukFormState extends State<ProdukForm> {
     return Scaffold(
       //  create app bar
       appBar: AppBar(
-        title: Text("Add Produk / Edit"),
+        title: Text(judul),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -60,18 +63,18 @@ class _ProdukFormState extends State<ProdukForm> {
             child: Column(
               children: [
                 _kodeProdukTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 _namaProdukTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 _hargaProdukTextField(),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 // add button
@@ -87,7 +90,7 @@ class _ProdukFormState extends State<ProdukForm> {
                     }
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
               ],
@@ -144,9 +147,7 @@ class _ProdukFormState extends State<ProdukForm> {
   }
 
   _addProduk() {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() {});
     Produk createProduk = Produk(id: widget.produk?.id);
     createProduk.kodeProduk = _kodeProdukTextboxController.text;
     createProduk.namaProduk = _namaProdukTextboxController.text;
@@ -161,15 +162,11 @@ class _ProdukFormState extends State<ProdukForm> {
                 description: "Simpan gagal, silahkan coba lagi",
               ));
     });
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() {});
   }
 
   ubah() {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(() {});
     Produk updateProduk = Produk(id: widget.produk!.id);
     updateProduk.kodeProduk = _kodeProdukTextboxController.text;
     updateProduk.namaProduk = _namaProdukTextboxController.text;
@@ -184,8 +181,6 @@ class _ProdukFormState extends State<ProdukForm> {
                 description: "Simpan gagal, silahkan coba lagi",
               ));
     });
-    setState(() {
-      _isLoading = false;
-    });
+    setState(() {});
   }
 }

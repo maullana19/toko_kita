@@ -1,22 +1,22 @@
-import 'package:flutter/material.dart';
-import 'package:toko_kita/helpers/user_info.dart';
-import 'package:toko_kita/ui/profile_page.dart';
+// ignore_for_file: deprecated_member_use
 
-class ProfilesPages extends StatelessWidget {
-  const ProfilesPages({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 10,
       child: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Column(
           children: <Widget>[
             Container(
               width: 100,
               height: 100,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                   image: AssetImage('assets/images/profile.png'),
@@ -24,37 +24,37 @@ class ProfilesPages extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               'Nama Lengkap',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               'Email',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
-            Text(
+            const Text(
               'No. Telp',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            Text(
+            const Text(
               'Alamat',
               style: TextStyle(
                 fontSize: 20,
@@ -62,10 +62,10 @@ class ProfilesPages extends StatelessWidget {
               ),
             ),
             Container(
-              margin: EdgeInsets.only(top: 20),
+              margin: const EdgeInsets.only(top: 20),
               child: RaisedButton(
                 color: Colors.blue,
-                child: Text(
+                child: const Text(
                   'Edit Profile',
                   style: TextStyle(
                     color: Colors.white,
@@ -78,6 +78,5 @@ class ProfilesPages extends StatelessWidget {
         ),
       ),
     );
-    Navigator.pop(context);
   }
 }

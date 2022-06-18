@@ -1,6 +1,3 @@
-import 'package:flutter/material.dart';
-import 'package:toko_kita/models/produk.dart';
-
 class Registrasi {
   int? code;
   bool? status;

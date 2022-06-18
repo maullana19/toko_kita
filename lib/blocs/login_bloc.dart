@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:toko_kita/helpers/api.dart';
 import 'package:toko_kita/helpers/api_url.dart';
@@ -10,6 +12,5 @@ class LoginBloc {
     var response = await Api().post(apiUrl, body);
     var jsonObj = json.decode(response.body);
     return Login.fromJson(jsonObj);
-    var isLoading = false;
   }
 }

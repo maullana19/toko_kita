@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:toko_kita/frontend/ui/daftar_user.dart';
 
@@ -5,17 +7,19 @@ class LoginUserPage extends StatelessWidget {
   final _emailUserTextboxController = TextEditingController();
   final _passwordUserTextboxController = TextEditingController();
 
+  LoginUserPage({Key? key}) : super(key: key);
+
   BuildContext? get context => null;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: Color.fromARGB(255, 230, 225, 255),
         ),
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -23,7 +27,7 @@ class LoginUserPage extends StatelessWidget {
           ),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 70,
               ),
               Image.asset(
@@ -34,48 +38,45 @@ class LoginUserPage extends StatelessWidget {
               ),
               Center(
                 child: Container(
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
+                  padding: const EdgeInsets.all(10),
+                  decoration: const BoxDecoration(
                     borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(30),
                       topRight: Radius.circular(30),
                     ),
                     color: Colors.white,
                   ),
-                  child: Container(
+                  child: SizedBox(
                     height: 388,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(
+                        const Text(
                           'Login User',
                           style: TextStyle(fontSize: 20.0),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         ),
                         _emailuserTextField(),
-                        SizedBox(
+                        const SizedBox(
                           height: 20.0,
                         ),
                         _passworduserTextField(),
-                        SizedBox(
+                        const SizedBox(
+                          height: 20.0,
+                        ),
+                        _loginButton(),
+                        const SizedBox(
                           height: 20.0,
                         ),
                         RaisedButton(
-                          child: Text('Login'),
-                          onPressed: () {},
-                        ),
-                        SizedBox(
-                          height: 20.0,
-                        ),
-                        RaisedButton(
-                          child: Text('Daftar'),
+                          child: const Text('Daftar'),
                           onPressed: () {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => registrasiUser(),
+                                builder: (context) => const RegistrasiUser(),
                               ),
                             );
                           },
@@ -95,7 +96,7 @@ class LoginUserPage extends StatelessWidget {
   _emailuserTextField() {
     return TextField(
       controller: _emailUserTextboxController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Email',
         border: OutlineInputBorder(),
       ),
@@ -105,7 +106,7 @@ class LoginUserPage extends StatelessWidget {
   _passworduserTextField() {
     return TextField(
       controller: _passwordUserTextboxController,
-      decoration: InputDecoration(
+      decoration: const InputDecoration(
         labelText: 'Password',
         border: OutlineInputBorder(),
       ),
@@ -114,7 +115,7 @@ class LoginUserPage extends StatelessWidget {
 
   Widget _loginButton() {
     return RaisedButton(
-      child: Text('Login'),
+      child: const Text('Login'),
       onPressed: () {},
     );
   }

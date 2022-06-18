@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:toko_kita/helpers/user_info.dart';
 import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/ui/produk_page.dart';
-import 'package:toko_kita/frontend/homescreen.dart';
+// import 'package:toko_kita/frontend/homescreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 void main() {
@@ -13,6 +13,7 @@ class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
+  // ignore: library_private_types_in_public_api
   _MyAppState createState() => _MyAppState();
 }
 
@@ -43,7 +44,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Toko Kita',
       debugShowCheckedModeBanner: false,
-      home: LoginPage(),
+      home: page,
       builder: EasyLoading.init(),
     );
   }
