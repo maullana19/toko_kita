@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:toko_kita/blocs/logout_bloc.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
@@ -187,11 +188,11 @@ class ItemProduk extends StatelessWidget {
         },
         child: Column(
           children: [
-            Image.network(
-              "https://picsum.photos/200/200?image=${produk?.id}",
-              height: 250,
-              width: 300,
+            // base64 image to image
+            Image.memory(
+              base64Decode("${produk?.gambarProduk}"),
               fit: BoxFit.cover,
+              height: 200,
             ),
             Container(
               alignment: Alignment.topLeft,

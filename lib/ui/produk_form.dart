@@ -1,10 +1,17 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
+// import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 
 // ignore: must_be_immutable
 class ProdukForm extends StatefulWidget {
@@ -21,6 +28,8 @@ class _ProdukFormState extends State<ProdukForm> {
   final _formKey = GlobalKey<FormState>();
   String judul = "TAMBAH PRODUK";
   String tombolSubmit = "SIMPAN";
+  bool imageAvalible = false;
+  late Uint8List imageFile;
 
   final _kodeProdukTextboxController = TextEditingController();
   final _namaProdukTextboxController = TextEditingController();
@@ -74,6 +83,11 @@ class _ProdukFormState extends State<ProdukForm> {
                 const SizedBox(
                   height: 20,
                 ),
+                _uploadimage(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _image(),
                 const SizedBox(
                   height: 20,
                 ),
@@ -134,7 +148,9 @@ class _ProdukFormState extends State<ProdukForm> {
   Widget _hargaProdukTextField() {
     return TextFormField(
       decoration: const InputDecoration(
-          border: OutlineInputBorder(), labelText: "Harga"),
+        border: OutlineInputBorder(),
+        labelText: "Harga",
+      ),
       keyboardType: TextInputType.number,
       controller: _hargaProdukTextboxController,
       validator: (value) {
@@ -146,12 +162,53 @@ class _ProdukFormState extends State<ProdukForm> {
     );
   }
 
+  Widget _uploadimage() {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: ElevatedButton.icon(
+        style: ElevatedButton.styleFrom(
+          padding: const EdgeInsets.all(20),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        onPressed: () async {
+          final image = await ImagePickerWeb.getImageAsBytes();
+          setState(() {
+            imageFile = image!;
+            imageAvalible = true;
+          });
+        },
+        icon: const Icon(Icons.image),
+        label: const Text("upload gambar"),
+      ),
+    );
+  }
+
+  Widget _image() {
+    return Container(
+      alignment: Alignment.topLeft,
+      child: Container(
+        width: 200,
+        height: 200,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          border:
+              Border.all(color: const Color.fromARGB(98, 0, 0, 0), width: 1),
+        ),
+        child:
+            imageAvalible ? Image.memory(imageFile) : const Icon(Icons.image),
+      ),
+    );
+  }
+
   _addProduk() {
     setState(() {});
     Produk createProduk = Produk(id: widget.produk?.id);
     createProduk.kodeProduk = _kodeProdukTextboxController.text;
     createProduk.namaProduk = _namaProdukTextboxController.text;
     createProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
+    createProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.addProduk(produk: createProduk).then((value) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => const ProdukPage()));
@@ -171,6 +228,7 @@ class _ProdukFormState extends State<ProdukForm> {
     updateProduk.kodeProduk = _kodeProdukTextboxController.text;
     updateProduk.namaProduk = _namaProdukTextboxController.text;
     updateProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
+    updateProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.updateProduk(produk: updateProduk).then((value) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => const ProdukPage()));
