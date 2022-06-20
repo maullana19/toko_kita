@@ -56,6 +56,7 @@ class _ProdukFormState extends State<ProdukForm> {
         _hargaProdukTextboxController.text =
             widget.produk!.hargaProduk.toString();
         _deskripsiProdukTextboxController.text = widget.produk!.deskripsi!;
+        _kategoriSelectFormFieldController.text = widget.produk!.kategori!;
         imageAvalible = true;
         // base64 to Uint8List
         imageFile = base64.decode(widget.produk!.gambarProduk!);
@@ -199,7 +200,7 @@ class _ProdukFormState extends State<ProdukForm> {
       },
       {
         'value': 'fashion',
-        'label': 'Fastion',
+        'label': 'Fashion',
       },
       {
         'value': 'alat',
@@ -295,13 +296,17 @@ class _ProdukFormState extends State<ProdukForm> {
       if (value.code == 200) {
         showDialog(
           context: context,
-          builder: (context) =>
-              const SuccessDialog(description: "Produk berhasil ditambahkan"),
+          builder: (context) => SuccessDialog(
+            description: "Produk berhasil ditambahkan",
+            okClick: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ProdukPage(),
+                ),
+              );
+            },
+          ),
         );
-        Future.delayed(const Duration(seconds: 2), () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const ProdukPage()));
-        });
       } else {
         showDialog(
           context: context,
@@ -334,14 +339,18 @@ class _ProdukFormState extends State<ProdukForm> {
       if (value.code == 200) {
         showDialog(
           context: context,
-          builder: (context) =>
-              const SuccessDialog(description: "Produk berhasil dirubah"),
+          barrierDismissible: true,
+          builder: (BuildContext context) => SuccessDialog(
+            description: "Produk berhasil dirubah",
+            okClick: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const ProdukPage(),
+                ),
+              );
+            },
+          ),
         );
-        // delay 2 detik
-        Future.delayed(const Duration(seconds: 2), () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (BuildContext context) => const ProdukPage()));
-        });
       } else {
         showDialog(
           context: context,
