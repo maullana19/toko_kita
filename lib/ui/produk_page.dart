@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:toko_kita/blocs/logout_bloc.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
+import 'package:toko_kita/helpers/formating.dart';
 import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/ui/produk_detail.dart';
@@ -173,6 +174,10 @@ class ItemProduk extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String namaProduk = "${produk?.namaProduk}";
+    namaProduk.length > 20
+        ? namaProduk = '${namaProduk.substring(0, 32)}...'
+        : namaProduk = namaProduk;
     return Card(
       elevation: 10,
       child: InkWell(
@@ -187,12 +192,14 @@ class ItemProduk extends StatelessWidget {
           );
         },
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             // base64 image to image
             Image.memory(
               base64Decode("${produk?.gambarProduk}"),
               fit: BoxFit.cover,
-              height: 200,
+              height: 180,
+              width: double.infinity,
             ),
             Container(
               alignment: Alignment.topLeft,
@@ -201,13 +208,70 @@ class ItemProduk extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "${produk?.namaProduk}",
-                    style: const TextStyle(fontSize: 20),
+                    namaProduk,
+                    style: const TextStyle(fontSize: 14),
                   ),
                   Text(
-                    "Rp.${produk?.hargaProduk}",
-                    style: const TextStyle(fontSize: 20),
+                    Formating.convertToIdr(produk?.hargaProduk, 0),
+                    style: const TextStyle(fontSize: 12),
                   ),
+                  // Ratting
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: const [
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 15,
+                      ),
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 15,
+                      ),
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 15,
+                      ),
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 15,
+                      ),
+                      Icon(
+                        Icons.star,
+                        color: Colors.yellow,
+                        size: 15,
+                      ),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text("(5.0)"),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  // Kategori produk
+                  Row(
+                    children: [
+                      const Icon(
+                        Icons.category_outlined,
+                        color: Color.fromARGB(255, 70, 77, 83),
+                        size: 12,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        Formating.upperCaseFrist("${produk?.kategori}"),
+                        style: const TextStyle(fontSize: 11),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
