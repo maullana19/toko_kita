@@ -2,15 +2,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:toko_kita/blocs/logout_bloc.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
+import 'package:toko_kita/frontend/homescreen.dart';
 import 'package:toko_kita/helpers/formating.dart';
 import 'package:toko_kita/models/produk.dart';
-import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/ui/produk_detail.dart';
 import 'package:toko_kita/ui/produk_form.dart';
 import 'package:toko_kita/ui/profile_page.dart';
 import 'package:toko_kita/ui/member.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+
+import '../frontend/ui/login_user.dart';
 
 class ProdukPage extends StatefulWidget {
   const ProdukPage({Key? key, memberId}) : super(key: key);
@@ -60,7 +62,12 @@ class _ProdukPageState extends State<ProdukPage> {
               title: const Text('Home'),
               leading: const Icon(Icons.home),
               onTap: () {
-                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomePages(),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -75,9 +82,11 @@ class _ProdukPageState extends State<ProdukPage> {
               leading: const Icon(Icons.person),
               onTap: () {
                 Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const MemberPage()));
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const MemberPage(),
+                  ),
+                );
               },
             ),
             const Divider(
@@ -120,7 +129,7 @@ class _ProdukPageState extends State<ProdukPage> {
           future: ProdukBloc.getProduks(),
           builder: (context, AsyncSnapshot<List> snapshot) {
             EasyLoading.show(status: 'TokoKita.com');
-            Future.delayed(const Duration(seconds: 3), () {
+            Future.delayed(const Duration(seconds: 1), () {
               EasyLoading.dismiss();
             });
             if (snapshot.connectionState == ConnectionState.waiting ||
@@ -134,7 +143,7 @@ class _ProdukPageState extends State<ProdukPage> {
                     list: snapshot.data,
                   )
                 : const Center(
-                    child: CircularProgressIndicator(),
+                    child: Text('data Kosong'),
                   );
           },
         ),

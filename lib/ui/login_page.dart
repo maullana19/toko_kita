@@ -6,15 +6,15 @@ import 'package:toko_kita/ui/registrasi_page.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
 import 'package:toko_kita/frontend/ui/login_user.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class LoginPageAdmin extends StatefulWidget {
+  const LoginPageAdmin({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _LoginPageState createState() => _LoginPageState();
+  _LoginPageAdminState createState() => _LoginPageAdminState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageAdminState extends State<LoginPageAdmin> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
@@ -45,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(20),
                   color: const Color.fromARGB(248, 106, 203, 248),
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -59,50 +59,16 @@ class _LoginPageState extends State<LoginPage> {
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       _emailTextField(),
                       _passwordTextField(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 10),
                       _loginButton(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Row(
-                            children: [
-                              const Text(
-                                "Belum punya akun? ",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const RegistrasiPage(),
-                                    ),
-                                  );
-                                },
-                                child: const Text(
-                                  "Daftar",
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(width: 150),
-                          Row(
-                            children: [
-                              _buttonLoginUserPagess(),
-                            ],
-                          ),
+                          _buttonLoginUserPagess(),
                         ],
                       ),
                     ],
@@ -187,11 +153,25 @@ class _LoginPageState extends State<LoginPage> {
             password: _passwordTextboxController.text.toString())
         .then(
       (value) async {
-        await UserInfo().setToken(value.token.toString());
-        await UserInfo().setUserID(value.userID!);
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const ProdukPage()));
+        if (value.code != 200) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => WarningDialog(
+              description: "${value.message}",
+            ),
+          );
+        } else {
+          await UserInfo().setToken(value.token.toString());
+          await UserInfo().setUserID(value.userID!);
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProdukPage(),
+            ),
+          );
+        }
       },
       onError: (error) {
         showDialog(
@@ -248,17 +228,19 @@ class _LoginPageState extends State<LoginPage> {
 
   // create widget button right
   Widget _buttonLoginUserPagess() {
-    return Center(
-      child: InkWell(
-        child: const Text(
-          "Login User Page",
-          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-        ),
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LoginUserPage()));
-        },
+    return InkWell(
+      child: const Text(
+        "Login Sebagai User",
+        style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
       ),
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LoginPage(),
+          ),
+        );
+      },
     );
   }
 

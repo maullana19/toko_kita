@@ -5,6 +5,8 @@ import 'package:toko_kita/models/user.dart';
 import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 
+import '../frontend/ui/login_user.dart';
+
 class MemberPage extends StatefulWidget {
   const MemberPage({Key? key}) : super(key: key);
 
@@ -52,7 +54,7 @@ class _MemberPageState extends State<MemberPage> {
             return Text(snapshot.error.toString());
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Text("Data tidak ditemukan"),
             );
           }
         },

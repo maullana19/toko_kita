@@ -5,6 +5,8 @@ import 'package:toko_kita/ui/produk_page.dart';
 // import 'package:toko_kita/frontend/homescreen.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+import 'frontend/ui/login_user.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -30,7 +32,7 @@ class _MyAppState extends State<MyApp> {
     var token = await UserInfo().getToken();
     if (token != null) {
       setState(() {
-        page = ProdukPage();
+        page = const ProdukPage();
       });
     } else {
       setState(() {

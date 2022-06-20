@@ -69,7 +69,7 @@ class SuccessDialog extends StatelessWidget {
             child: OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pop(); // To close the dialog
-                okClick!();
+                okClick!.call();
               },
               child: const Text("OK"),
             ),

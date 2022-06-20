@@ -5,8 +5,15 @@ class RegistrasiUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Sedang Dibuat'),
+    return Scaffold(
+      appBar: AppBar(
+        primary: true,
+        backgroundColor: Colors.lightBlue,
+        title: const Text('Registrasi User'),
+      ),
+      body: const Center(
+        child: Text('Sedang Dibuat'),
+      ),
     );
   }
 }
