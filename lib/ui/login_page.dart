@@ -4,7 +4,6 @@ import 'package:toko_kita/helpers/user_info.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 import 'package:toko_kita/ui/registrasi_page.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
-import 'package:toko_kita/frontend/ui/login_user.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -45,27 +44,28 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(20),
                   color: const Color.fromARGB(248, 106, 203, 248),
                 ),
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.all(20.0),
                 child: Form(
                   key: _formKey,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Login (Admin)",
+                        "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 30,
                           color: Colors.white,
                         ),
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       _emailTextField(),
                       _passwordTextField(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 10),
                       _loginButton(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Row(
                             children: [
@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.white,
                                 ),
                               ),
-                              GestureDetector(
+                              InkWell(
                                 onTap: () {
                                   Navigator.push(
                                     context,
@@ -97,14 +97,9 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                             ],
                           ),
-                          const SizedBox(width: 150),
-                          Row(
-                            children: [
-                              _buttonLoginUserPagess(),
-                            ],
-                          ),
                         ],
                       ),
+                      const SizedBox(width: 20),
                     ],
                   ),
                 ),
@@ -187,11 +182,25 @@ class _LoginPageState extends State<LoginPage> {
             password: _passwordTextboxController.text.toString())
         .then(
       (value) async {
-        await UserInfo().setToken(value.token.toString());
-        await UserInfo().setUserID(value.userID!);
-        // ignore: use_build_context_synchronously
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const ProdukPage()));
+        if (value.code != 200) {
+          showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (BuildContext context) => WarningDialog(
+              description: "${value.message}",
+            ),
+          );
+        } else {
+          await UserInfo().setToken(value.token.toString());
+          await UserInfo().setUserID(value.userID!);
+          // ignore: use_build_context_synchronously
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ProdukPage(),
+            ),
+          );
+        }
       },
       onError: (error) {
         showDialog(
@@ -243,22 +252,6 @@ class _LoginPageState extends State<LoginPage> {
           },
         );
       },
-    );
-  }
-
-  // create widget button right
-  Widget _buttonLoginUserPagess() {
-    return Center(
-      child: InkWell(
-        child: const Text(
-          "Login User Page",
-          style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-        ),
-        onTap: () {
-          Navigator.push(context,
-              MaterialPageRoute(builder: (context) => LoginUserPage()));
-        },
-      ),
     );
   }
 

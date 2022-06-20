@@ -52,7 +52,7 @@ class _MemberPageState extends State<MemberPage> {
             return Text(snapshot.error.toString());
           } else {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Text("Data tidak ditemukan"),
             );
           }
         },

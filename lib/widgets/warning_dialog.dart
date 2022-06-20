@@ -66,8 +66,8 @@ class WarningDialog extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop(); // To close the dialog
-                okClick!();
+                Navigator.of(context).pop();
+                okClick?.call();
               },
               child: const Text("OK"),
             ),

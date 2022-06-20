@@ -1,11 +1,8 @@
 // ignore_for_file: deprecated_member_use
-
-import 'dart:io';
 import 'dart:typed_data';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/models/produk.dart';
@@ -193,7 +190,7 @@ class _ProdukFormState extends State<ProdukForm> {
   }
 
   Widget _kategoriSelectFormField() {
-    final List<Map<String, dynamic>> _items = [
+    final List<Map<String, dynamic>> items = [
       {
         'value': 'elektronik',
         'label': 'Elektronik',
@@ -214,7 +211,7 @@ class _ProdukFormState extends State<ProdukForm> {
         labelText: 'Kategori',
       ),
       labelText: 'Kategori',
-      items: _items,
+      items: items,
       controller: _kategoriSelectFormFieldController,
       validator: (value) {
         if (value!.isEmpty) {

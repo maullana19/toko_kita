@@ -11,6 +11,16 @@ class UserInfo {
     return pref.getString("token");
   }
 
+  Future setRole(String value) async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.setString("role", value);
+  }
+  
+  Future<String?> getRole() async {
+    final SharedPreferences pref = await SharedPreferences.getInstance();
+    return pref.getString("role");
+  }
+
   Future setUserID(int value) async {
     final SharedPreferences pref = await SharedPreferences.getInstance();
     return pref.setInt("userID", value);

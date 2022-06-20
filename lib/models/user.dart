@@ -1,11 +1,13 @@
 class User {
   String? idUser;
   String? emailUser;
+  String? role;
   String? password;
   String? namaUser;
   User({
     this.idUser,
     this.emailUser,
+    this.role,
     this.password,
     this.namaUser,
   });
@@ -14,6 +16,7 @@ class User {
       idUser: obj['id_user'],
       namaUser: obj['nama_user'],
       emailUser: obj['email_user'],
+      role: obj['role'],
       password: obj['password'],
     );
   }
