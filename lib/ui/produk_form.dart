@@ -12,6 +12,8 @@ import 'package:toko_kita/widgets/warning_dialog.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:select_form_field/select_form_field.dart';
 
+import '../widgets/success_dialog.dart';
+
 // ignore: must_be_immutable
 class ProdukForm extends StatefulWidget {
   Produk? produk;
@@ -290,8 +292,20 @@ class _ProdukFormState extends State<ProdukForm> {
     createProduk.kategori = _kategoriSelectFormFieldController.text;
     createProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.addProduk(produk: createProduk).then((value) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const ProdukPage()));
+      if (value.code) {
+        showDialog(
+          context: context,
+          builder: (context) =>
+              const SuccessDialog(description: "Produk berhasil ditambahkan"),
+        );
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => const ProdukPage()));
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => WarningDialog(description: "${value.message}"),
+        );
+      }
     }, onError: (error) {
       showDialog(
         context: context,
@@ -315,8 +329,20 @@ class _ProdukFormState extends State<ProdukForm> {
     updateProduk.kategori = _kategoriSelectFormFieldController.text;
     updateProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.updateProduk(produk: updateProduk).then((value) {
-      Navigator.of(context).push(MaterialPageRoute(
-          builder: (BuildContext context) => const ProdukPage()));
+      if (value.code) {
+        showDialog(
+          context: context,
+          builder: (context) =>
+              const SuccessDialog(description: "Produk berhasil dirubah"),
+        );
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => const ProdukPage()));
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => WarningDialog(description: "${value.message}"),
+        );
+      }
     }, onError: (error) {
       showDialog(
           context: context,

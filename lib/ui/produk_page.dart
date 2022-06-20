@@ -23,6 +23,21 @@ class ProdukPage extends StatefulWidget {
 }
 
 class _ProdukPageState extends State<ProdukPage> {
+  String? userRole;
+
+  @override
+  void initState() {
+    super.initState();
+    isAdmin();
+  }
+
+  void isAdmin() async {
+    var role = await UserInfo().getRole();
+    setState(() {
+      userRole = role.toString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +46,7 @@ class _ProdukPageState extends State<ProdukPage> {
         backgroundColor: Colors.lightBlue,
         title: const Text('Dashboard'),
         actions: [
-          UserInfo().getRole.toString() == 'admin'
+          userRole == 'admin'
               ? IconButton(
                   icon: const Icon(Icons.add),
                   onPressed: () {
