@@ -292,14 +292,16 @@ class _ProdukFormState extends State<ProdukForm> {
     createProduk.kategori = _kategoriSelectFormFieldController.text;
     createProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.addProduk(produk: createProduk).then((value) {
-      if (value.code) {
+      if (value.code == 200) {
         showDialog(
           context: context,
           builder: (context) =>
               const SuccessDialog(description: "Produk berhasil ditambahkan"),
         );
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => const ProdukPage()));
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const ProdukPage()));
+        });
       } else {
         showDialog(
           context: context,
@@ -329,14 +331,17 @@ class _ProdukFormState extends State<ProdukForm> {
     updateProduk.kategori = _kategoriSelectFormFieldController.text;
     updateProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.updateProduk(produk: updateProduk).then((value) {
-      if (value.code) {
+      if (value.code == 200) {
         showDialog(
           context: context,
           builder: (context) =>
               const SuccessDialog(description: "Produk berhasil dirubah"),
         );
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => const ProdukPage()));
+        // delay 2 detik
+        Future.delayed(const Duration(seconds: 2), () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (BuildContext context) => const ProdukPage()));
+        });
       } else {
         showDialog(
           context: context,

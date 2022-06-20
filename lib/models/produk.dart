@@ -32,7 +32,6 @@ class Produk {
   factory Produk.success(Map<String, dynamic> obj) {
     return Produk(
       code: obj['code'],
-      message: obj['data'],
     );
   }
   factory Produk.error(Map<String, dynamic> obj) {

@@ -62,7 +62,11 @@ class ProdukBloc {
 
     var response = await Api().post(apiUrl, body);
     var jsonObj = json.decode(response.body);
-    return jsonObj['status'];
+    if (jsonObj['code'] == 200) {
+      return Produk.success(jsonObj);
+    } else {
+      return Produk.error(jsonObj);
+    }
   }
 
   static Future deleteProduk(int? id) async {
