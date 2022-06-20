@@ -19,7 +19,7 @@ class Login {
         code: obj['code'],
         status: obj['status'],
         token: obj['data']['token'],
-        role: obj['data']['role'],
+        role: obj['data']['user']['role'],
         userID: obj['data']['user']['id'],
         userEmail: obj['data']['user']['email']);
   }

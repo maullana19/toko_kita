@@ -22,11 +22,20 @@ class ProdukDetail extends StatefulWidget {
 class _ProdukDetailState extends State<ProdukDetail> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   Produk? _produk;
+  String? userRole;
 
   @override
   void initState() {
     super.initState();
     _produk = widget.produk;
+    isAdmin();
+  }
+
+  void isAdmin() async {
+    var role = await UserInfo().getRole();
+    setState(() {
+      userRole = role.toString();
+    });
   }
 
   @override
@@ -36,17 +45,14 @@ class _ProdukDetailState extends State<ProdukDetail> {
       appBar: AppBar(
         title: const Text('Detail Produk'),
         actions: [
-          UserInfo().getRole.toString() == 'admin'
+          userRole == 'admin'
               ? IconButton(
-                  tooltip: 'Ubah?',
-                  icon: const Icon(Icons.edit),
+                  icon: const Icon(Icons.add),
                   onPressed: () {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ProdukForm(
-                          produk: _produk,
-                        ),
+                        builder: (context) => ProdukForm(),
                       ),
                     );
                   },
@@ -142,9 +148,7 @@ class _ProdukDetailState extends State<ProdukDetail> {
                         ),
                       ],
                     ),
-                    UserInfo().getRole().toString() == 'admin'
-                        ? _tombolHapusEdit()
-                        : const SizedBox(),
+                    userRole == 'admin' ? _tombolHapusEdit() : const SizedBox(),
                   ],
                 ),
                 const SizedBox(

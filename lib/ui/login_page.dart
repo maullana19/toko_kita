@@ -191,6 +191,7 @@ class _LoginPageState extends State<LoginPage> {
             ),
           );
         } else {
+          await UserInfo().setRole(value.role.toString());
           await UserInfo().setToken(value.token.toString());
           await UserInfo().setUserID(value.userID!);
           // ignore: use_build_context_synchronously
