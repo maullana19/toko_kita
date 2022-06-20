@@ -11,7 +11,7 @@ class ApiUrl {
   }
 
   static String deleteProduk(int id) {
-    return '$baseUrl/produk/$id/delete';
+    return '$baseUrl/produk/$id';
   }
 
   static String getProduk(int id) {

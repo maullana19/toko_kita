@@ -6,12 +6,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
 // import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+import 'package:select_form_field/select_form_field.dart';
 
 // ignore: must_be_immutable
 class ProdukForm extends StatefulWidget {
@@ -33,7 +35,11 @@ class _ProdukFormState extends State<ProdukForm> {
 
   final _kodeProdukTextboxController = TextEditingController();
   final _namaProdukTextboxController = TextEditingController();
-  final _hargaProdukTextboxController = TextEditingController();
+  // Mask IDR
+  final _hargaProdukTextboxController = MoneyMaskedTextController(
+      thousandSeparator: '.', precision: 0, decimalSeparator: '');
+  final _deskripsiProdukTextboxController = TextEditingController();
+  final _kategoriSelectFormFieldController = TextEditingController();
 
   @override
   void initState() {
@@ -50,6 +56,10 @@ class _ProdukFormState extends State<ProdukForm> {
         _namaProdukTextboxController.text = widget.produk!.namaProduk!;
         _hargaProdukTextboxController.text =
             widget.produk!.hargaProduk.toString();
+        _deskripsiProdukTextboxController.text = widget.produk!.deskripsi!;
+        imageAvalible = true;
+        // base64 to Uint8List
+        imageFile = base64.decode(widget.produk!.gambarProduk!);
       });
     } else {
       judul = "TAMBAH PRODUK";
@@ -83,6 +93,11 @@ class _ProdukFormState extends State<ProdukForm> {
                 const SizedBox(
                   height: 20,
                 ),
+                _deskripsiProdukTextField(),
+                const SizedBox(
+                  height: 20,
+                ),
+                _kategoriSelectFormField(),
                 _uploadimage(),
                 const SizedBox(
                   height: 20,
@@ -93,16 +108,14 @@ class _ProdukFormState extends State<ProdukForm> {
                 ),
                 // add button
                 RaisedButton(
-                  child: Text(tombolSubmit),
+                  color: Colors.green,
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
-                      if (widget.produk == null) {
-                        _addProduk();
-                      } else {
-                        ubah();
-                      }
+                      widget.produk == null ? _addProduk() : ubah();
                     }
                   },
+                  child: Text(tombolSubmit,
+                      style: const TextStyle(color: Colors.white)),
                 ),
                 const SizedBox(
                   height: 20,
@@ -146,16 +159,66 @@ class _ProdukFormState extends State<ProdukForm> {
   }
 
   Widget _hargaProdukTextField() {
+    // input harga produk format idr
     return TextFormField(
       decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: "Harga",
-      ),
+          border: OutlineInputBorder(), labelText: "Harga Produk"),
       keyboardType: TextInputType.number,
       controller: _hargaProdukTextboxController,
       validator: (value) {
         if (value!.isEmpty) {
-          return "Harga harus diisi";
+          return "Harga Produk harus diisi";
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _deskripsiProdukTextField() {
+    return TextFormField(
+      minLines: 2,
+      maxLines: 8,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(), labelText: "Deskripsi Produk"),
+      keyboardType: TextInputType.multiline,
+      textInputAction: TextInputAction.newline,
+      controller: _deskripsiProdukTextboxController,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Deskripsi Produk harus diisi";
+        }
+        return null;
+      },
+    );
+  }
+
+  Widget _kategoriSelectFormField() {
+    final List<Map<String, dynamic>> _items = [
+      {
+        'value': 'elektronik',
+        'label': 'Elektronik',
+      },
+      {
+        'value': 'fashion',
+        'label': 'Fastion',
+      },
+      {
+        'value': 'alat',
+        'label': 'Alat',
+      },
+    ];
+    return SelectFormField(
+      type: SelectFormFieldType.dropdown,
+      decoration: const InputDecoration(
+        border: OutlineInputBorder(),
+        labelText: 'Kategori',
+      ),
+      labelText: 'Kategori',
+      items: _items,
+      controller: _kategoriSelectFormFieldController,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "Kategori harus diisi";
         }
         return null;
       },
@@ -163,25 +226,40 @@ class _ProdukFormState extends State<ProdukForm> {
   }
 
   Widget _uploadimage() {
-    return Container(
-      alignment: Alignment.topLeft,
-      child: ElevatedButton.icon(
-        style: ElevatedButton.styleFrom(
-          padding: const EdgeInsets.all(20),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+    return FormField(
+      builder: (FormFieldState<String> state) {
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 20),
+          alignment: Alignment.topLeft,
+          child: ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.all(20),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            onPressed: () async {
+              final image = await ImagePickerWeb.getImageAsBytes();
+              setState(() {
+                imageFile = image!;
+                imageAvalible = true;
+              });
+            },
+            icon: const Icon(Icons.image),
+            label: const Text("upload gambar"),
           ),
-        ),
-        onPressed: () async {
-          final image = await ImagePickerWeb.getImageAsBytes();
-          setState(() {
-            imageFile = image!;
-            imageAvalible = true;
-          });
-        },
-        icon: const Icon(Icons.image),
-        label: const Text("upload gambar"),
-      ),
+        );
+      },
+      validator: (value) {
+        if (value == null && imageAvalible == false) {
+          showDialog(
+            context: context,
+            builder: (context) => const WarningDialog(
+                description: "Gambar produk wajib diupload"),
+          );
+        }
+        return null;
+      },
     );
   }
 
@@ -203,23 +281,29 @@ class _ProdukFormState extends State<ProdukForm> {
   }
 
   _addProduk() {
+    // jika imagefile tidak ada munculkan dialog box
     setState(() {});
     Produk createProduk = Produk(id: widget.produk?.id);
     createProduk.kodeProduk = _kodeProdukTextboxController.text;
     createProduk.namaProduk = _namaProdukTextboxController.text;
-    createProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
+    // remove dot from string
+    createProduk.hargaProduk =
+        int.parse(_hargaProdukTextboxController.text.replaceAll('.', ''));
+    createProduk.deskripsi = _deskripsiProdukTextboxController.text;
+    createProduk.kategori = _kategoriSelectFormFieldController.text;
     createProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.addProduk(produk: createProduk).then((value) {
       Navigator.of(context).push(MaterialPageRoute(
           builder: (BuildContext context) => const ProdukPage()));
     }, onError: (error) {
       showDialog(
-          context: context,
-          builder: (BuildContext context) => const WarningDialog(
-                description: "Simpan gagal, silahkan coba lagi",
-              ));
+        context: context,
+        builder: (BuildContext context) => const WarningDialog(
+          description: "Simpan gagal, silahkan coba lagi",
+        ),
+      );
+      setState(() {});
     });
-    setState(() {});
   }
 
   ubah() {
@@ -227,7 +311,11 @@ class _ProdukFormState extends State<ProdukForm> {
     Produk updateProduk = Produk(id: widget.produk!.id);
     updateProduk.kodeProduk = _kodeProdukTextboxController.text;
     updateProduk.namaProduk = _namaProdukTextboxController.text;
-    updateProduk.hargaProduk = int.parse(_hargaProdukTextboxController.text);
+    // remove dot from string
+    updateProduk.hargaProduk =
+        int.parse(_hargaProdukTextboxController.text.replaceAll('.', ''));
+    updateProduk.deskripsi = _deskripsiProdukTextboxController.text;
+    updateProduk.kategori = _kategoriSelectFormFieldController.text;
     updateProduk.gambarProduk = base64Encode(imageFile);
     ProdukBloc.updateProduk(produk: updateProduk).then((value) {
       Navigator.of(context).push(MaterialPageRoute(

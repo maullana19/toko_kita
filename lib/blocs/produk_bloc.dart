@@ -35,6 +35,8 @@ class ProdukBloc {
       "kode_produk": produk!.kodeProduk,
       "nama_produk": produk.namaProduk,
       "harga": produk.hargaProduk.toString(),
+      "deskripsi": produk.deskripsi,
+      "kategori": produk.kategori,
       "gambar_produk": produk.gambarProduk
     };
     var response = await Api().post(apiUrl, body);
@@ -49,6 +51,8 @@ class ProdukBloc {
       "kode_produk": produk.kodeProduk,
       "nama_produk": produk.namaProduk,
       "harga": produk.hargaProduk.toString(),
+      "deskripsi": produk.deskripsi,
+      "kategori": produk.kategori,
       "gambar_produk": produk.gambarProduk
     };
 
