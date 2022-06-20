@@ -4,6 +4,7 @@ import 'dart:core';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:toko_kita/helpers/formating.dart';
+import 'package:toko_kita/helpers/user_info.dart';
 import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/produk_form.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
@@ -19,7 +20,6 @@ class ProdukDetail extends StatefulWidget {
 }
 
 class _ProdukDetailState extends State<ProdukDetail> {
-  final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
   Produk? _produk;
 
@@ -36,20 +36,22 @@ class _ProdukDetailState extends State<ProdukDetail> {
       appBar: AppBar(
         title: const Text('Detail Produk'),
         actions: [
-          IconButton(
-            tooltip: 'Ubah?',
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => ProdukForm(
-                    produk: _produk,
-                  ),
-                ),
-              );
-            },
-          ),
+          UserInfo().getRole.toString() == 'admin'
+              ? IconButton(
+                  tooltip: 'Ubah?',
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ProdukForm(
+                          produk: _produk,
+                        ),
+                      ),
+                    );
+                  },
+                )
+              : const SizedBox(),
         ],
       ),
       body: SingleChildScrollView(
@@ -140,7 +142,9 @@ class _ProdukDetailState extends State<ProdukDetail> {
                         ),
                       ],
                     ),
-                    _tombolHapusEdit(),
+                    UserInfo().getRole().toString() == 'admin'
+                        ? _tombolHapusEdit()
+                        : const SizedBox(),
                   ],
                 ),
                 const SizedBox(

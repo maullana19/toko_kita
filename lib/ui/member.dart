@@ -5,8 +5,6 @@ import 'package:toko_kita/models/user.dart';
 import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 
-import '../frontend/ui/login_user.dart';
-
 class MemberPage extends StatefulWidget {
   const MemberPage({Key? key}) : super(key: key);
 

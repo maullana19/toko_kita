@@ -3,10 +3,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 
 import '../blocs/logout_bloc.dart';
-import '../ui/member.dart';
-import '../ui/profile_page.dart';
+import 'login_page.dart';
+import 'member.dart';
+import 'profile_page.dart';
 import '../widgets/warning_dialog.dart';
-import 'ui/login_user.dart';
 
 class HomePages extends StatelessWidget {
   const HomePages({Key? key}) : super(key: key);

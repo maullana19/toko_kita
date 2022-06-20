@@ -4,17 +4,16 @@ import 'package:toko_kita/helpers/user_info.dart';
 import 'package:toko_kita/ui/produk_page.dart';
 import 'package:toko_kita/ui/registrasi_page.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
-import 'package:toko_kita/frontend/ui/login_user.dart';
 
-class LoginPageAdmin extends StatefulWidget {
-  const LoginPageAdmin({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   // ignore: library_private_types_in_public_api
-  _LoginPageAdminState createState() => _LoginPageAdminState();
+  _LoginPageState createState() => _LoginPageState();
 }
 
-class _LoginPageAdminState extends State<LoginPageAdmin> {
+class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
 
@@ -52,7 +51,7 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       const Text(
-                        "Login (Admin)",
+                        "Login",
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 30,
@@ -68,9 +67,39 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          _buttonLoginUserPagess(),
+                          Row(
+                            children: [
+                              const Text(
+                                "Belum punya akun? ",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          const RegistrasiPage(),
+                                    ),
+                                  );
+                                },
+                                child: const Text(
+                                  "Daftar",
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
+                      const SizedBox(width: 20),
                     ],
                   ),
                 ),
@@ -221,24 +250,6 @@ class _LoginPageAdminState extends State<LoginPageAdmin> {
               _submit();
             }
           },
-        );
-      },
-    );
-  }
-
-  // create widget button right
-  Widget _buttonLoginUserPagess() {
-    return InkWell(
-      child: const Text(
-        "Login Sebagai User",
-        style: TextStyle(color: Color.fromARGB(255, 255, 255, 255)),
-      ),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const LoginPage(),
-          ),
         );
       },
     );
