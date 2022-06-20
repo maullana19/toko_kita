@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:toko_kita/blocs/registrasi_bloc.dart';
+import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/widgets/success_dialog.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
 
@@ -146,14 +147,20 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
         .then(
       (value) {
         showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) => SuccessDialog(
-                  description: "Registrasi berhasil, silahkan login",
-                  okClick: () {
-                    Navigator.pop(context);
-                  },
-                ));
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) => SuccessDialog(
+            description: "Registrasi berhasil, silahkan login",
+            okClick: () {
+              // navigate to login page
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const LoginPage(),
+                ),
+              );
+            },
+          ),
+        );
       },
       onError: (error) {
         print(error);
