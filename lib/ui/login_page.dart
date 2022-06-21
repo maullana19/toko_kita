@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:toko_kita/blocs/login_bloc.dart';
 import 'package:toko_kita/helpers/user_info.dart';
-import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/ui/homescreen.dart';
 import 'package:toko_kita/ui/registrasi_page.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
 
@@ -198,7 +198,7 @@ class _LoginPageState extends State<LoginPage> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => const ProdukPage(),
+              builder: (context) => const HomePages(),
             ),
           );
         }

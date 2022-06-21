@@ -11,22 +11,22 @@ class MemberBloc {
 
   get userStream => null;
 
-  static Future<String> getUserData() async {
-    String apiUrl = ApiUrl.dataMember;
+  static Future<User> getUserData(int id) async {
+    String apiUrl = ApiUrl.getUserData(id);
     var response = await Api().get(apiUrl);
     var jsonObj = json.decode(response.body);
-    return jsonObj['nama'];
+    User user = User.fromJson(jsonObj);
+    return user;
   }
 
   static Future<List<User>> getAllDataUser() async {
-    String apiUrl = ApiUrl.dataMember;
+    String apiUrl = ApiUrl.listUsers;
     var response = await Api().get(apiUrl);
     var jsonObj = json.decode(response.body);
+    List<dynamic> listProduk = (jsonObj as Map<String, dynamic>)['data'];
     List<User> users = [];
-
-    for (int i = 0; i < jsonObj.length; i++) {
-      User user = User.fromJson(jsonObj[i]);
-      users.add(user);
+    for (int i = 0; i < listProduk.length; i++) {
+      users.add(User.list(listProduk[i]));
     }
     return users;
   }

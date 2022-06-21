@@ -1,10 +1,12 @@
 class User {
+  int? code;
   String? idUser;
   String? emailUser;
   String? role;
   String? password;
   String? namaUser;
   User({
+    this.code,
     this.idUser,
     this.emailUser,
     this.role,
@@ -13,11 +15,19 @@ class User {
   });
   factory User.fromJson(Map<String, dynamic> obj) {
     return User(
-      idUser: obj['id_user'],
-      namaUser: obj['nama_user'],
-      emailUser: obj['email_user'],
+      code: obj['code'],
+      namaUser: obj['data']['nama'],
+      emailUser: obj['data']['email'],
+      role: obj['data']['role'],
+      password: obj['data']['password'],
+    );
+  }
+
+  factory User.list(Map<String, dynamic> obj) {
+    return User(
+      namaUser: obj['nama'],
+      emailUser: obj['email'],
       role: obj['role'],
-      password: obj['password'],
     );
   }
 

@@ -9,6 +9,7 @@ import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/produk_form.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/widgets/success_dialog.dart';
 
 // ignore: must_be_immutable
 class ProdukDetail extends StatefulWidget {
@@ -203,8 +204,11 @@ class _ProdukDetailState extends State<ProdukDetail> {
     AlertDialog alertDialog = AlertDialog(
       content: const Text("Yakin ingin menghapus data ini?"),
       actions: [
-        FlatButton(
-          color: const Color.fromARGB(255, 185, 66, 58),
+        // color red
+        ElevatedButton(
+          style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(Colors.red),
+          ),
           child: const Text(
             "HAPUS",
             style: TextStyle(
@@ -214,29 +218,19 @@ class _ProdukDetailState extends State<ProdukDetail> {
             ProdukBloc.deleteProduk(_produk?.id).then(
               (value) => {
                 // alert
-                Navigator.pop(context),
-                _scaffoldKey.currentState?.showSnackBar(
-                  const SnackBar(
-                    backgroundColor: Colors.green,
-                    elevation: 10,
-                    padding: EdgeInsets.all(20),
-                    content: Text("Data berhasil dihapus"),
-                    duration: Duration(seconds: 2),
+                showDialog(
+                  context: context,
+                  barrierDismissible: true,
+                  builder: (BuildContext context) => SuccessDialog(
+                    description: "Data berhasil dihapus",
+                    okClick: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ProdukPage(),
+                        ),
+                      );
+                    },
                   ),
-                ),
-                // wait 2 second
-                Future.delayed(
-                  const Duration(seconds: 1),
-                  () => {
-                    // kembali ke halaman produk
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ProdukPage(),
-                      ),
-                      (route) => false,
-                    ),
-                  },
                 ),
               },
             );
