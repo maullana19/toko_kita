@@ -1,15 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/widgets/buttomBar.dart';
+import 'package:toko_kita/widgets/drawer.dart';
 
-import '../blocs/logout_bloc.dart';
-import 'login_page.dart';
-import 'member.dart';
-import 'profile_page.dart';
-import '../widgets/warning_dialog.dart';
-
-class HomePages extends StatelessWidget {
+class HomePages extends StatefulWidget {
   const HomePages({Key? key}) : super(key: key);
+
+  @override
+  State<HomePages> createState() => _HomePagesState();
+}
+
+class _HomePagesState extends State<HomePages> {
+  String? userRole;
+
+  @override
+  void initState() {
+    super.initState();
+    isAdmin();
+  }
+
+  void isAdmin() async {
+    var role = await UserInfo().getRole();
+    setState(() {
+      userRole = role.toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,102 +34,40 @@ class HomePages extends StatelessWidget {
         backgroundColor: Colors.lightBlue,
         title: const Text('Home Page'),
       ),
-      drawer: Drawer(
-        child: ListView(
-          children: [
-            UserAccountsDrawerHeader(
-              onDetailsPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProfilePage(),
-                  ),
-                );
-              },
-              accountName: const Text("Admin"),
-              accountEmail: const Text("Admin@gmail.com "),
-            ),
-            ListTile(
-              title: const Text('Home'),
-              leading: const Icon(Icons.home),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePages(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('List Produk'),
-              leading: const Icon(Icons.list),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const ProdukPage(),
-                  ),
-                );
-              },
-            ),
-            ListTile(
-              title: const Text('List Member'),
-              leading: const Icon(Icons.person),
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MemberPage(),
-                  ),
-                );
-              },
-            ),
-            const Divider(
-              height: 1.0,
-            ),
-            ListTile(
-              title: const Text('Logout'),
-              leading: const Icon(Icons.exit_to_app),
-              onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => WarningDialog(
-                    key: const Key('logout_dialog'),
-                    description: 'Apakah anda yakin ingin logout?',
-                    okClick: () {
-                      EasyLoading.show(
-                        status: 'Logout...',
-                        maskType: EasyLoadingMaskType.black,
-                      );
-                      // logout
-                      LogoutBloc().logout().then((value) {
-                        EasyLoading.dismiss();
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginPage(),
-                          ),
-                        );
-                      });
-                    },
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
+      drawer: MyDrawer(userRole: userRole),
+      bottomNavigationBar: ButtomBar(
+        currentContext: context,
+        currentIndex: 0,
       ),
-      body: Center(
-        child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Image.asset(
-            'images/tokokitalogo.png',
-            width: 200,
-            height: 200,
-          ),
+      body: Container(
+        alignment: Alignment.center,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'images/tokokitalogo.png',
+              width: 200,
+              height: 200,
+            ),
+            const Text(
+              'Selamat Datang',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text(
+              'Silahkan pilih menu yang ingin anda lakukan',
+              style: TextStyle(
+                fontSize: 15,
+              ),
+            ),
+            const SizedBox(height: 10),
+          ],
         ),
       ),
     );

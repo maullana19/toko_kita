@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use
 import 'dart:typed_data';
 import 'dart:convert';
 
@@ -7,10 +6,9 @@ import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/models/produk.dart';
 import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/widgets/myInput.dart';
 import 'package:toko_kita/widgets/warning_dialog.dart';
-// import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
-import 'package:select_form_field/select_form_field.dart';
 
 import '../widgets/success_dialog.dart';
 
@@ -107,8 +105,10 @@ class _ProdukFormState extends State<ProdukForm> {
                   height: 20,
                 ),
                 // add button
-                RaisedButton(
-                  color: Colors.green,
+                ElevatedButton(
+                  style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(Colors.blue),
+                  ),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       widget.produk == null ? _addProduk() : ubah();
@@ -129,100 +129,58 @@ class _ProdukFormState extends State<ProdukForm> {
   }
 
   Widget _kodeProdukTextField() {
-    return TextFormField(
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(), labelText: "Kode Produk"),
-      keyboardType: TextInputType.text,
-      controller: _kodeProdukTextboxController,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Kode Produk harus diisi";
-        }
-        return null;
-      },
-    );
+    return MyInput(
+            label: "Kode Produk",
+            value: _kodeProdukTextboxController,
+            error: "Kode Produk harus diisi")
+        .standart();
   }
 
   Widget _namaProdukTextField() {
-    return TextFormField(
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(), labelText: "Nama Produk"),
-      keyboardType: TextInputType.text,
-      controller: _namaProdukTextboxController,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Nama Produk harus diisi";
-        }
-        return null;
-      },
-    );
+    return MyInput(
+            label: "Nama Produk",
+            value: _namaProdukTextboxController,
+            error: "Nama Produk harus diisi")
+        .standart();
   }
 
   Widget _hargaProdukTextField() {
     // input harga produk format idr
-    return TextFormField(
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(), labelText: "Harga Produk"),
-      keyboardType: TextInputType.number,
-      controller: _hargaProdukTextboxController,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Harga Produk harus diisi";
-        }
-        return null;
-      },
-    );
+    return MyInput(
+            label: "Harga Produk",
+            value: _hargaProdukTextboxController,
+            error: "Harga Produk harus diisi")
+        .standart();
   }
 
   Widget _deskripsiProdukTextField() {
-    return TextFormField(
-      minLines: 2,
-      maxLines: 8,
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(), labelText: "Deskripsi Produk"),
-      keyboardType: TextInputType.multiline,
-      textInputAction: TextInputAction.newline,
-      controller: _deskripsiProdukTextboxController,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Deskripsi Produk harus diisi";
-        }
-        return null;
-      },
-    );
+    return MyInput(
+            label: "Deskripsi Produk",
+            value: _deskripsiProdukTextboxController,
+            error: "Deskripsi Produk harus diisi")
+        .standart();
   }
 
   Widget _kategoriSelectFormField() {
-    final List<Map<String, dynamic>> items = [
-      {
-        'value': 'elektronik',
-        'label': 'Elektronik',
-      },
-      {
-        'value': 'fashion',
-        'label': 'Fashion',
-      },
-      {
-        'value': 'alat',
-        'label': 'Alat',
-      },
-    ];
-    return SelectFormField(
-      type: SelectFormFieldType.dropdown,
-      decoration: const InputDecoration(
-        border: OutlineInputBorder(),
-        labelText: 'Kategori',
-      ),
-      labelText: 'Kategori',
-      items: items,
-      controller: _kategoriSelectFormFieldController,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return "Kategori harus diisi";
-        }
-        return null;
-      },
-    );
+    return MyInput(
+      label: "Kategori",
+      options: [
+        {
+          'value': 'elektronik',
+          'label': 'Elektronik',
+        },
+        {
+          'value': 'fashion',
+          'label': 'Fashion',
+        },
+        {
+          'value': 'alat',
+          'label': 'Alat',
+        },
+      ],
+      value: _kategoriSelectFormFieldController,
+      error: "Kategori harus diisi",
+    ).select();
   }
 
   Widget _uploadimage() {

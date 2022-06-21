@@ -3,11 +3,11 @@ class ApiUrl {
   static const String registrasi = '$baseUrl/registrasi';
   static const String login = '$baseUrl/login';
   static const String listProduk = '$baseUrl/produk';
-  static const dataMember = '$baseUrl/user';
+  static const String listUsers = '$baseUrl/users';
   static const String addProduk = '$baseUrl/produk';
 
   static String updateProduk(int id) {
-    return '$baseUrl/produk/$id/update';
+    return '$baseUrl/produk/$id';
   }
 
   static String deleteProduk(int id) {
@@ -30,7 +30,7 @@ class ApiUrl {
     return '$baseUrl/produk/harga/$harga';
   }
 
-  static String getUserData() {
-    return '$baseUrl/user';
+  static String getUserData(int id) {
+    return '$baseUrl/users/$id';
   }
 }

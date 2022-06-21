@@ -1,132 +1,99 @@
 import 'package:flutter/material.dart';
-import 'package:toko_kita/blocs/logout_bloc.dart';
 import 'package:toko_kita/blocs/member_bloc.dart';
-import 'package:toko_kita/models/user.dart';
-import 'package:toko_kita/ui/login_page.dart';
-import 'package:toko_kita/ui/produk_page.dart';
+import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/widgets/buttomBar.dart';
+import 'package:toko_kita/widgets/drawer.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class MemberPage extends StatefulWidget {
-  const MemberPage({Key? key}) : super(key: key);
+  const MemberPage({Key? key, memberId}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _MemberPageState();
+  State<MemberPage> createState() => _MemberPageState();
 }
 
 class _MemberPageState extends State<MemberPage> {
-  final LogoutBloc _logoutBloc = LogoutBloc();
-  final MemberBloc _memberBloc = MemberBloc();
+  String userRole = 'member';
+
+  @override
+  void initState() {
+    super.initState();
+    isAdmin();
+  }
+
+  void isAdmin() async {
+    var role = await UserInfo().getRole();
+    setState(() {
+      userRole = role.toString();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Member Data'),
+        primary: true,
+        backgroundColor: Colors.lightBlue,
+        title: const Text('Dashboard'),
       ),
-      body: StreamBuilder<User>(
-        stream: _memberBloc.userStream,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView(
-              children: <Widget>[
-                ListTile(
-                  leading: const Icon(Icons.person),
-                  title: Text(snapshot.data!.namaUser.toString()),
-                  subtitle: Text(snapshot.data!.emailUser.toString()),
-                ),
-                ListTile(
-                  leading: const Icon(Icons.exit_to_app),
-                  title: const Text('Logout'),
-                  onTap: () {
-                    _logoutBloc.logout();
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const LoginPage(),
-                      ),
-                    );
-                  },
-                ),
-              ],
-            );
-          } else if (snapshot.hasError) {
-            return Text(snapshot.error.toString());
-          } else {
-            return const Center(
-              child: Text("Data tidak ditemukan"),
-            );
-          }
-        },
+      drawer: MyDrawer(userRole: userRole),
+      bottomNavigationBar: ButtomBar(
+        currentContext: context,
+        currentIndex: 1,
+      ),
+      body: Center(
+        child: FutureBuilder<List>(
+          future: MemberBloc.getAllDataUser(),
+          builder: (context, AsyncSnapshot<List> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting ||
+                snapshot.connectionState == ConnectionState.none) {
+              // easy loading
+              EasyLoading.show(
+                status: 'Toko Kita',
+                maskType: EasyLoadingMaskType.black,
+              );
+            } else {
+              EasyLoading.dismiss();
+            }
+            // ignore: avoid_print
+            if (snapshot.hasError) print(snapshot.error);
+            return snapshot.hasData
+                ? ListMember(
+                    list: snapshot.data,
+                  )
+                : const Center(
+                    child: Text('data Kosong'),
+                  );
+          },
+        ),
       ),
     );
   }
 }
 
-class ListMembers extends StatelessWidget {
-  final String? listz;
-  final int? daftarMember;
-  final int? length;
+class ListMember extends StatelessWidget {
+  final List? list;
 
-  // ignore: use_key_in_widget_constructors
-  const ListMembers({
-    required this.listz,
-    required this.daftarMember,
-    required this.length,
-  });
+  const ListMember({Key? key, this.list}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Member Data'),
-      ),
-      body: FutureBuilder<List<User>>(
-        future: MemberBloc.getAllDataUser(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data?.length,
-              itemBuilder: (context, index) {
-                User user = snapshot.data![index];
-                return ListTile(
-                  title: Text(User.getNama(user)),
-                  subtitle: Text(User.getEmail(user)),
-                  onTap: () {},
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return const Center(
-            child: CircularProgressIndicator(),
+    return Container(
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(16),
+      child: ListView.separated(
+        itemCount: list?.length ?? 0,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(list?[index]?.namaUser ?? 'data kosong'),
+            subtitle: Text(list?[index]?.emailUser ?? 'data kosong'),
+            trailing: Text(list?[index]?.role ?? 'data kosong'),
           );
         },
+        separatorBuilder: (context, index) => const Divider(
+          color: Colors.black,
+        ),
       ),
-    );
-  }
-}
-
-// create list member
-class MemberItem extends StatelessWidget {
-  final User? member;
-
-  const MemberItem({Key? key, this.member}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(member?.namaUser ?? 'Nama'),
-      leading: const Icon(Icons.person),
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProdukPage(
-              memberId: member?.idUser,
-            ),
-          ),
-        );
-      },
     );
   }
 }

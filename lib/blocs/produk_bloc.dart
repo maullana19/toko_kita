@@ -60,7 +60,7 @@ class ProdukBloc {
       "gambar_produk": produk.gambarProduk
     };
 
-    var response = await Api().post(apiUrl, body);
+    var response = await Api().put(apiUrl, body);
     var jsonObj = json.decode(response.body);
     if (jsonObj['code'] == 200) {
       return Produk.success(jsonObj);
