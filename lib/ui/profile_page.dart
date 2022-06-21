@@ -46,7 +46,6 @@ class _ProfilePageState extends State<ProfilePage> {
       appBar: AppBar(
         title: const Text('Profile'),
       ),
-      drawer: MyDrawer(userRole: userRole),
       bottomNavigationBar: ButtomBar(
         currentContext: context,
         currentIndex: 2,

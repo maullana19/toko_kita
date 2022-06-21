@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:toko_kita/blocs/member_bloc.dart';
 import 'package:toko_kita/blocs/produk_bloc.dart';
 import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/models/user.dart';
 import 'package:toko_kita/ui/produk_form.dart';
 import 'package:toko_kita/widgets/buttomBar.dart';
 import 'package:toko_kita/widgets/drawer.dart';
@@ -16,6 +18,7 @@ class ProdukPage extends StatefulWidget {
 
 class _ProdukPageState extends State<ProdukPage> {
   String userRole = 'member';
+  User user = User();
 
   @override
   void initState() {
@@ -25,9 +28,14 @@ class _ProdukPageState extends State<ProdukPage> {
 
   void isAdmin() async {
     var role = await UserInfo().getRole();
-    setState(() {
-      userRole = role.toString();
-    });
+    await UserInfo().getUserID().then((id) => {
+          MemberBloc.getUserData(id!).then((data) => {
+                setState(() {
+                  userRole = role.toString();
+                  user = data;
+                })
+              })
+        });
   }
 
   @override
@@ -53,7 +61,7 @@ class _ProdukPageState extends State<ProdukPage> {
               : const SizedBox(),
         ],
       ),
-      drawer: MyDrawer(userRole: userRole),
+      drawer: MyDrawer(userRole: userRole, user: user),
       bottomNavigationBar: ButtomBar(
         currentContext: context,
         currentIndex: 1,

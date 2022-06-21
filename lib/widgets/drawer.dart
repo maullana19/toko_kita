@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:toko_kita/blocs/logout_bloc.dart';
+import 'package:toko_kita/models/user.dart';
 import 'package:toko_kita/ui/homescreen.dart';
 import 'package:toko_kita/ui/login_page.dart';
 import 'package:toko_kita/ui/member.dart';
@@ -9,7 +10,8 @@ import 'package:toko_kita/ui/profile_page.dart';
 
 class MyDrawer extends StatelessWidget {
   final String? userRole;
-  const MyDrawer({Key? key, this.userRole}) : super(key: key);
+  final User? user;
+  const MyDrawer({Key? key, this.userRole, this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +27,8 @@ class MyDrawer extends StatelessWidget {
                 ),
               );
             },
-            accountName: const Text("Admin"),
-            accountEmail: const Text("Admin@gmail.com "),
+            accountName: Text("${user?.namaUser}"),
+            accountEmail: Text("${user?.emailUser}"),
           ),
           ListTile(
             title: const Text('Home'),

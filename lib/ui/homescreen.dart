@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:toko_kita/blocs/member_bloc.dart';
 import 'package:toko_kita/helpers/user_info.dart';
+import 'package:toko_kita/models/user.dart';
 import 'package:toko_kita/widgets/buttomBar.dart';
 import 'package:toko_kita/widgets/drawer.dart';
 
@@ -12,6 +14,7 @@ class HomePages extends StatefulWidget {
 
 class _HomePagesState extends State<HomePages> {
   String? userRole;
+  User user = User();
 
   @override
   void initState() {
@@ -21,9 +24,14 @@ class _HomePagesState extends State<HomePages> {
 
   void isAdmin() async {
     var role = await UserInfo().getRole();
-    setState(() {
-      userRole = role.toString();
-    });
+    await UserInfo().getUserID().then((id) => {
+          MemberBloc.getUserData(id!).then((data) => {
+                setState(() {
+                  userRole = role.toString();
+                  user = data;
+                })
+              })
+        });
   }
 
   @override
@@ -34,7 +42,7 @@ class _HomePagesState extends State<HomePages> {
         backgroundColor: Colors.lightBlue,
         title: const Text('Home Page'),
       ),
-      drawer: MyDrawer(userRole: userRole),
+      drawer: MyDrawer(userRole: userRole, user: user),
       bottomNavigationBar: ButtomBar(
         currentContext: context,
         currentIndex: 0,
